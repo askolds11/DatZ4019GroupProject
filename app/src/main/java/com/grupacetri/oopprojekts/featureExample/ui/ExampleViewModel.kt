@@ -1,12 +1,13 @@
 package com.grupacetri.oopprojekts.featureExample.ui
 
 import androidx.lifecycle.ViewModel
-import com.grupacetri.oopprojekts.featureExample.di.Example
+import com.grupacetri.oopprojekts.featureExample.domain.ExampleUseCases
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class ExampleViewModel(
-    private val example: Example
+    private val exampleUseCases: ExampleUseCases
 ) : ViewModel() {
-    val exampleVariable = example.doStuff()
+    val exampleList = exampleUseCases.getList()
+    val example = exampleUseCases.get(1)
 }

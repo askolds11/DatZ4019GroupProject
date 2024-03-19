@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.grupacetri.oopprojekts.featureExample.di.ExampleComponent
+import com.grupacetri.oopprojekts.featureExample.di.create
 import com.grupacetri.oopprojekts.featureExample.ui.ExampleScreen
 import com.grupacetri.oopprojekts.featureExample.ui.ExampleViewModel
 import com.grupacetri.oopprojekts.ui.theme.OOPProjektsTheme
@@ -26,7 +28,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    Greeting("Android")
-                    ExampleScreen()
+                    val test = ExampleComponent::class.create().exampleScreen
+                    test()
                 }
             }
         }
