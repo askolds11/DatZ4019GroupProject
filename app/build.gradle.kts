@@ -70,3 +70,11 @@ dependencies {
     debugImplementation(compose.androidx.ui.tooling)
     debugImplementation(compose.androidx.ui.test.manifest)
 }
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.grupacetri.oopprojekts")
+        }
+    }
+}
