@@ -50,8 +50,10 @@ android {
 
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     ksp(libs.kotlin.inject.compiler.ksp)
     implementation(libs.kotlin.inject.runtime)
+    implementation(libs.sqldelight.coroutines.extensions)
 
     implementation(libs.sqldelight.android.driver)
     implementation(libs.androidx.core.ktx)

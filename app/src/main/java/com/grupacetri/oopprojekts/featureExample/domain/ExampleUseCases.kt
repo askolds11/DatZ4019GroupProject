@@ -1,18 +1,29 @@
 package com.grupacetri.oopprojekts.featureExample.domain
 
 import com.grupacetri.oopprojekts.featureExample.data.ExampleRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ExampleUseCases(
     private val exampleRepository: ExampleRepository
 ) {
-    fun getList(): List<String> {
-        return exampleRepository.getList().mapIndexed { index, example ->
-            "$example $index"
+    fun getList(): Flow<List<ExampleItem>> {
+        return exampleRepository.getList().map {
+            it.mapIndexed { index, example ->
+                ExampleItem(
+                    example.id,
+                    "${example.custom_string} $index"
+                )
+            }
         }
     }
 
-    fun get(id: Int): String {
-        return exampleRepository.get(id) + " ooga booga"
+    fun delete(id: Long) {
+        exampleRepository.delete(id)
+    }
+
+    fun add(customString: String) {
+        exampleRepository.add(customString)
     }
 
 }

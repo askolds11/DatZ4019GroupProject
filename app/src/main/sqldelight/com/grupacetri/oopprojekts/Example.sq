@@ -1,0 +1,24 @@
+CREATE TABLE example (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    custom_string TEXT
+);
+
+INSERT INTO example (custom_string) VALUES
+('Item 1'),
+('Wowzers!'),
+('Boom'),
+('lolololo'),
+('oooooooooooooo'),
+('aaaaaaaaaaaaaa'),
+('ghqiop');
+
+selectList:
+SELECT *
+FROM example;
+
+insert:
+INSERT INTO example(custom_string)
+VALUES (?);
+
+delete:
+DELETE FROM example WHERE id = ?;

@@ -1,6 +1,10 @@
 package com.grupacetri.oopprojekts.featureExample.data
 
+import com.grupacetri.oopprojekts.Example
+import kotlinx.coroutines.flow.Flow
+
 interface ExampleRepository {
-    fun getList(): List<String>
-    fun get(id: Int): String
+    fun getList(): Flow<List<Example>>
+    fun delete(id: Long)
+    fun add(customString: String)
 }

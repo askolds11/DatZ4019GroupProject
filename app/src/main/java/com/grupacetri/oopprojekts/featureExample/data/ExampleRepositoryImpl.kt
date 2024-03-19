@@ -1,12 +1,27 @@
 package com.grupacetri.oopprojekts.featureExample.data
 
-class ExampleRepositoryImpl: ExampleRepository {
-    private val listt = listOf("uno", "dos", "tres")
-    override fun getList(): List<String> {
-        return listt
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.grupacetri.oopprojekts.Database
+import com.grupacetri.oopprojekts.Example
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
+
+class ExampleRepositoryImpl(
+    private val database: Database
+): ExampleRepository {
+    override fun getList(): Flow<List<Example>> {
+        return database.exampleQueries.selectList().asFlow().mapToList(Dispatchers.IO)
     }
 
-    override fun get(id: Int): String {
-        return listt[id - 1]
+    override fun delete(id: Long) {
+        database.exampleQueries.delete(id)
+    }
+
+    override fun add(customString: String) {
+        database.exampleQueries.insert(customString)
     }
 }

@@ -28,26 +28,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    Greeting("Android")
-                    val test = ExampleComponent::class.create().exampleScreen
+                    val test = (applicationContext as OopProjektsApplication).exampleComponent.exampleScreen
                     test()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    OOPProjektsTheme {
-        Greeting("Android")
     }
 }
