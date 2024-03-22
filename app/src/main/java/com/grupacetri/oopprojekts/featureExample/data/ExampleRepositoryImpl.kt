@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
 
+// implementation for ExampleRepository
+// this is for normal usage
+// for testing you'd probably define a ExampleRepositoryTestImpl in the testing module.
 class ExampleRepositoryImpl(
     private val database: Database
 ): ExampleRepository {

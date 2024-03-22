@@ -1,8 +1,10 @@
+-- create table
 CREATE TABLE example (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     custom_string TEXT
 );
 
+-- seed table
 INSERT INTO example (custom_string) VALUES
 ('Item 1'),
 ('Wowzers!'),
@@ -12,6 +14,7 @@ INSERT INTO example (custom_string) VALUES
 ('aaaaaaaaaaaaaa'),
 ('ghqiop');
 
+-- functions and their respective queries
 selectList:
 SELECT *
 FROM example;

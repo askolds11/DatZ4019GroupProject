@@ -39,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
     packaging {
         resources {
@@ -51,6 +51,7 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
     ksp(libs.kotlin.inject.compiler.ksp)
     implementation(libs.kotlin.inject.runtime)
     implementation(libs.sqldelight.coroutines.extensions)

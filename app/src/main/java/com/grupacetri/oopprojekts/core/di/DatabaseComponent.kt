@@ -1,16 +1,13 @@
 package com.grupacetri.oopprojekts.core.di
 
-import android.app.Application
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.grupacetri.oopprojekts.Database
-import com.grupacetri.oopprojekts.featureExample.data.ExampleRepository
-import com.grupacetri.oopprojekts.featureExample.data.ExampleRepositoryImpl
-import com.grupacetri.oopprojekts.featureExample.domain.ExampleUseCases
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
+// setup database stuff for app runtime
 @Component
 @SingletonScope
 abstract class DatabaseComponent(
@@ -20,11 +17,8 @@ abstract class DatabaseComponent(
     @Provides
     fun provideDatabaseDriver(): SqlDriver = AndroidSqliteDriver(Database.Schema, applicationContext, "database.db")
 
+    // one instance of the database for whole app
     @SingletonScope
     @Provides
     fun provideDatabase(sqlDriver: SqlDriver): Database = Database(sqlDriver)
-
-    @SingletonScope
-    @Provides
-    fun provideExampleUseCases(exampleRepository: ExampleRepository): ExampleUseCases = ExampleUseCases(exampleRepository)
 }
