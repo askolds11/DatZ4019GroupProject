@@ -2,7 +2,9 @@ package com.grupacetri.oopprojekts.core.ui.navigation.composables
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -37,6 +39,12 @@ private sealed class TopScreen(
         Icons.Filled.Home,
         R.string.example1
     )
+    data object SecondScreen : TopScreen(
+        NavigationRoute.SecondScreen.route,
+        Icons.Outlined.CheckCircle,
+        Icons.Filled.CheckCircle,
+        R.string.secondScreen
+    )
 }
 @Composable
 fun BottomBar(
@@ -44,10 +52,11 @@ fun BottomBar(
 ) {
     val items = remember {
         listOf(
-            TopScreen.Example1
+            TopScreen.Example1,
+            TopScreen.SecondScreen
         )
     }
-    BottomAppBar() {
+    BottomAppBar {
         // don't really need to understand this - this is code directly from android documentation
         // and you only need to change the items list to add new destinations
         NavigationBar(

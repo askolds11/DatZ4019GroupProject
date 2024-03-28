@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.NavigationGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.example1Graph
+import com.grupacetri.oopprojekts.core.ui.navigation.graphs.secondScreenGraph
 
 // set up navigation here
 @Composable
@@ -26,7 +27,7 @@ fun Navigation() {
         // this ensures that you don't draw under them and the user can't see the content.
         NavHost(
             navController = navController,
-            startDestination = NavigationGraph.example.name, // first graph to use - uses it's first destination
+            startDestination = NavigationGraph.Example.name, // first graph to use - uses it's first destination
             modifier = Modifier // modifiers basically set up how the composable looks
                 // use the scaffold padding here. this is not recommended,
                 // you should pass it into your composable so you can set it up properly there
@@ -36,6 +37,7 @@ fun Navigation() {
             // this just sets up all the graphs - the order doesn't matter, the one that's shown on app start
             // is the one defined in startDestination
             example1Graph(navController)
+            secondScreenGraph(navController)
         }
     }
 }

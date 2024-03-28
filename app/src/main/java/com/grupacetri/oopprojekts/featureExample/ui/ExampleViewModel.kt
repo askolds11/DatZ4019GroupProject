@@ -1,7 +1,10 @@
 package com.grupacetri.oopprojekts.featureExample.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.grupacetri.oopprojekts.core.di.DomainScope
+import com.grupacetri.oopprojekts.core.di.SingletonScope
 import com.grupacetri.oopprojekts.featureExample.domain.ExampleUseCases
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,11 +13,16 @@ import kotlinx.coroutines.flow.shareIn
 import me.tatarka.inject.annotations.Inject
 
 @Inject
+@DomainScope
 class ExampleViewModel(
     private val exampleUseCases: ExampleUseCases // inject exampleUseCases
 ) : ViewModel() {
     // state for the UI (ExampleScreen).
     val state = ExampleScreenState()
+
+    init {
+        Log.d("Test", "${exampleUseCases.hashCode()}")
+    }
 
     // exampleUseCases.getList() is a flow from the database (table).
     // that means that the flow emits the new List, if there is an update/insert/deletion
