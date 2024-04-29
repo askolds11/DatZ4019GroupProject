@@ -12,5 +12,5 @@ data class FooItem(
 }
 
 fun Foo.toFooItem(): FooItem {
-    return FooItem(foo, foo?.toString() + "ooga booga")
+    return FooItem(this.foo, this.foo?.toString() + "ooga booga")
 }
