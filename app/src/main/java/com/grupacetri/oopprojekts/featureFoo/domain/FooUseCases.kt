@@ -20,7 +20,7 @@ class FooUseCases(
     }
 
     fun add(foo: Long?) {
-        fooRepository.add(foo)
+        fooRepository.insert(foo)
     }
 
 }

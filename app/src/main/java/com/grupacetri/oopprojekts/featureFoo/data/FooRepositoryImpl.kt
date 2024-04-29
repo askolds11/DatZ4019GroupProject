@@ -18,7 +18,7 @@ class FooRepositoryImpl(
         database.fooQueries.delete(id)
     }
 
-    override fun add(foo: Long?) {
+    override fun insert(foo: Long?) {
         database.fooQueries.insert(foo)
     }
 }
