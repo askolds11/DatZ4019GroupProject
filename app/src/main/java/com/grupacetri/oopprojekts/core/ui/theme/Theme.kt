@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.ui.theme
+package com.grupacetri.oopprojekts.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

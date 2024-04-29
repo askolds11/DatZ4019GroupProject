@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.ui.theme
+package com.grupacetri.oopprojekts.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
