@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OOP Projekts</string>
+    <string name="foo">Foo</string>
 </resources>
