@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -37,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
     packaging {
         resources {
@@ -47,7 +49,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
+    ksp(libs.kotlin.inject.compiler.ksp)
+    implementation(libs.kotlin.inject.runtime)
+    implementation(libs.sqldelight.coroutines.extensions)
 
+    implementation(libs.sqldelight.android.driver)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(compose.androidx.activity.compose)
@@ -63,4 +72,12 @@ dependencies {
     androidTestImplementation(compose.androidx.ui.test.junit4)
     debugImplementation(compose.androidx.ui.tooling)
     debugImplementation(compose.androidx.ui.test.manifest)
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.grupacetri.oopprojekts")
+        }
+    }
 }
