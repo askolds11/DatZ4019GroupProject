@@ -1,0 +1,10 @@
+CREATE TABLE eventTimeInstance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    event_id INTEGER NOT NULL,
+    time_started TEXT NOT NULL,
+    time_ended TEXT NOT NULL,
+    created TEXT NOT NULL,
+    modified TEXT NOT NULL,
+    FOREIGN KEY (event_id)
+        REFERENCES event (id)
+);

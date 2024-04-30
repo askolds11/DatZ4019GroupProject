@@ -1,3 +1,21 @@
--- CREATE TABLE event (
---
--- );
+CREATE TABLE event (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    comment TEXT,
+    color TEXT DEFAULT "#000000" NOT NULL,
+    active INTEGER DEFAULT 1 NOT NULL,
+    created TEXT NOT NULL,
+    modified TEXT NOT NULL
+);
+
+insert:
+    INSERT INTO event (name, comment, color, active, created, modified) VALUES ?;
+
+update:
+    UPDATE event SET (name, comment, color, active, modified) = (?) WHERE id = ?;
+
+selectlist:
+SELECT * FROM event;
+
+delete:
+DELETE FROM event WHERE id = ?;
