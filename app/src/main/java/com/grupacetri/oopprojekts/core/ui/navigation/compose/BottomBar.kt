@@ -34,6 +34,13 @@ private sealed class TopScreen(
         Icons.Filled.Home,
         R.string.foo
     )
+
+    data object Event : TopScreen(
+        NavigationRoute.Event.route,
+        Icons.Outlined.Home,
+        Icons.Filled.Home,
+        R.string.event
+    )
 }
 
 @Composable
@@ -42,7 +49,8 @@ fun BottomBar(
 ) {
     val items = remember {
         listOf(
-            TopScreen.Example1
+            TopScreen.Example1,
+            TopScreen.Event
         )
     }
     NavigationBar(
