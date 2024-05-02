@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.NavigationGraph
+import com.grupacetri.oopprojekts.core.ui.navigation.graphs.eventGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.fooGraph
 
 @Composable
@@ -24,6 +25,7 @@ fun Navigation() {
                 .fillMaxSize()
         ) {
             fooGraph(navController)
+            eventGraph(navController)
         }
     }
 
