@@ -17,5 +17,8 @@ update:
 selectlist:
 SELECT * FROM event;
 
+select:
+SELECT * FROM event WHERE id = ?; --varb te vajag pēc citiem parametriem meklēt (piem. created/modified)
+
 delete:
 DELETE FROM event WHERE id = ?;

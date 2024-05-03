@@ -3,10 +3,10 @@ package com.grupacetri.oopprojekts.featureEvent.di
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.core.di.DatabaseComponent
 import com.grupacetri.oopprojekts.featureEvent.ui.create.EventFormScreen
-import com.grupacetri.oopprojekts.featureFoo.data.FooRepository
-import com.grupacetri.oopprojekts.featureFoo.data.FooRepositoryImpl
-import com.grupacetri.oopprojekts.featureFoo.domain.FooUseCases
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreen
+import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
+import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
+//import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases //need domain
+//import com.grupacetri.oopprojekts.featureEvent.ui.EventFormScreen //unresolved ref whatever that means
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import me.tatarka.inject.annotations.Scope
@@ -20,13 +20,13 @@ annotation class EventScope
 abstract class EventComponent(
     @Component val databaseComponent: DatabaseComponent
 ) {
-//    @FooScope
+//    @EventScope //finish implementing di please
 //    @Provides
-//    fun provideFooRepository(database: Database): FooRepository = FooRepositoryImpl(database)
+//    fun provideEventRepository(database: Database): EventRepository = EventRepositoryImpl(database)
 //
-//    @FooScope
+//    @EventScope
 //    @Provides
-//    fun provideFooUseCases(fooRepository: FooRepository): FooUseCases = FooUseCases(fooRepository)
+//    fun provideEventUseCases(EventRepository: EventRepository): EventUseCases = EventUseCases(EventRepository)
 
     abstract val eventFormScreen: EventFormScreen
 }
