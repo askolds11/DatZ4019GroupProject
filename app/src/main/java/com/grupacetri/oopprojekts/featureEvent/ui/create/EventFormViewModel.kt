@@ -20,7 +20,7 @@ import me.tatarka.inject.annotations.Inject
 class EventFormViewModel (
 //    private val fooUseCases: FooUseCases
 ) : ViewModel() {
-//    val state = FooScreenState()
+    val state = EventFormScreenState()
 //
 //    init {
 //        Log.d("Test", "${fooUseCases.hashCode()}")
@@ -37,16 +37,27 @@ class EventFormViewModel (
 //        )
 //
 //    // all screen events get handled here
-//    fun onEvent(event: FooScreenEvent) {
-//        // this must be exhaustive - if you delete one of the items (lines), you'll see
-//        // that it shows an error and won't let you compile
-//        when (event) {
-//            is FooScreenEvent.Delete -> delete(event.foo)
-//            is FooScreenEvent.Save -> save()
-//            is FooScreenEvent.UpdateText -> updateText(event.newValue)
-//            is FooScreenEvent.NavigateToRoute -> navigateToRoute(event.route)
-//        }
-//    }
+    fun onEvent(event: EventFormScreenEvent) {
+        // this must be exhaustive - if you delete one of the items (lines), you'll see
+        // that it shows an error and won't let you compile
+        when (event) {
+            is EventFormScreenEvent.UpdateColor -> updateColor(event.newValue)
+            is EventFormScreenEvent.UpdateComment -> updateComment(event.newValue)
+            is EventFormScreenEvent.UpdateName -> updateName(event.newValue)
+        }
+    }
+
+    private fun updateColor(color: String) {
+        state.eventFormItem.value = state.eventFormItem.value.copy(color = color)
+    }
+
+    private fun updateComment(comment: String) {
+        state.eventFormItem.value = state.eventFormItem.value.copy(comment = comment)
+    }
+
+    private fun updateName(name: String) {
+        state.eventFormItem.value = state.eventFormItem.value.copy(name = name)
+    }
 //
 //    private fun delete(foo: Long?) {
 //        if (foo != null) {

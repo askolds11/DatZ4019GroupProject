@@ -18,3 +18,7 @@ fun Flow<Unit>.collectAsStateWithLifecycle(): State<Unit> {
 fun getThisApplication(): OopProjektsApplication {
     return LocalContext.current.applicationContext as OopProjektsApplication
 }
+
+fun Boolean.toLong(): Long {
+    return if (this) 1 else 0
+}

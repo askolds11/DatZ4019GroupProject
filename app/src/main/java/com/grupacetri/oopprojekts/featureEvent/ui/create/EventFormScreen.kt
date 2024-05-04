@@ -45,23 +45,38 @@ fun EventFormScreen(
 //        viewModel.onEvent(FooScreenEvent.NavigateToRoute(null))
 //    }
 
-//    ExampleContent(
-//        viewModel.state,
-//        viewModel::onEvent,
-//        navigate
-//    )
+    EventFormScreenContent(
+        viewModel.state,
+        viewModel::onEvent,
+        navigate
+    )
     Text(text = "abccccccccc")
 }
 
 @Composable
-private fun EventFormExampleContent(
+private fun EventFormScreenContent(
     state: EventFormScreenState,
     onEvent: (EventFormScreenEvent) -> Unit,
     navigate: NavigateToRoute
 ) {
-    LazyColumn {
-
+    Column {
+        Text(text = "Enter new name")
+        OutlinedTextField(value = state.eventFormItem.value.name, onValueChange = {onEvent(EventFormScreenEvent.UpdateName(it))} )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = "Comment")
+        OutlinedTextField(value = state.eventFormItem.value.comment ?: "", onValueChange = {onEvent(EventFormScreenEvent.UpdateComment(it))} )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(value = state.eventFormItem.value.color, onValueChange = {onEvent(EventFormScreenEvent.UpdateColor(it))} )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(value = "Category Dropwdown", onValueChange = {} )
+//            Spacer(modifier = Modifier.height(10.dp))
+//            Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(100.dp))
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "TRACK")
+        }
     }
+
 }
 
 
@@ -70,24 +85,7 @@ private fun EventFormExampleContent(
 private fun EventFormExampleContentPreview() {
     OOPProjektsTheme {
         val state = EventFormScreenState()
-        EventFormExampleContent(state = state, onEvent = { }, navigate = {})
-        Column {
-            Text(text = "Enter new name")
-            OutlinedTextField(value = "Name", onValueChange = {} )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Comment")
-            OutlinedTextField(value = "Comment", onValueChange = {} )
-            Spacer(modifier = Modifier.height(10.dp))
-            OutlinedTextField(value = "Color Dropwdown", onValueChange = {} )
-            Spacer(modifier = Modifier.height(10.dp))
-            OutlinedTextField(value = "Category Dropwdown", onValueChange = {} )
-//            Spacer(modifier = Modifier.height(10.dp))
-//            Spacer(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.height(100.dp))
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "TRACK")
-            }
-        }
+        EventFormScreenContent(state = state, onEvent = { }, navigate = {})
 
     }
 }
