@@ -21,8 +21,46 @@ class EventUseCases(
 //        fooRepository.delete(id)
 //    }
 
-    fun insert(event: EventFormItem) {
+    fun validate(event: EventFormItem): Boolean {
+        if (validateEventName(event.name) != null) {
+            return false
+        }
+        return true
+    }
+
+    /**
+     * Validates the event.name.
+     * @param name the value for the event.name.
+     * @return null or EventNameError.
+     */
+    fun validateEventName(name: String): EventNameError? {
+        if (name.isBlank()) {
+            return EventNameError.IS_EMPTY
+        }
+
+        if (name.trim().length > 100) {
+            return EventNameError.TOO_LONG
+        }
+        return null
+    }
+
+    /**
+     * @author @Agnese Grike
+     */
+    fun insert(event: EventFormItem): Boolean {
+        if (validate(event) == false) {
+            return false
+        }
         eventRepository.insert(event.toEvent())
+        return true
+    }
+
+    /**
+     * Name error enums.
+     */
+    enum class EventNameError {
+        IS_EMPTY,
+        TOO_LONG,
     }
 
 }

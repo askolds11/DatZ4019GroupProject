@@ -1,24 +1,14 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.create
+package com.grupacetri.oopprojekts.featureEvent.ui.form
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
-import com.grupacetri.oopprojekts.featureFoo.di.FooScope
-import com.grupacetri.oopprojekts.featureFoo.domain.FooUseCases
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenState
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.shareIn
+import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 import me.tatarka.inject.annotations.Inject
 
 
 @Inject
 //@FooScope
 class EventFormViewModel (
-//    private val fooUseCases: FooUseCases
+    private val eventUseCases: EventUseCases
 ) : ViewModel() {
     val state = EventFormScreenState()
 //
@@ -44,6 +34,7 @@ class EventFormViewModel (
             is EventFormScreenEvent.UpdateColor -> updateColor(event.newValue)
             is EventFormScreenEvent.UpdateComment -> updateComment(event.newValue)
             is EventFormScreenEvent.UpdateName -> updateName(event.newValue)
+            is EventFormScreenEvent.Save -> save()
         }
     }
 
@@ -56,7 +47,13 @@ class EventFormViewModel (
     }
 
     private fun updateName(name: String) {
+        val validation = eventUseCases.validateEventName(name)
         state.eventFormItem.value = state.eventFormItem.value.copy(name = name)
+        state.nameValidation.value = validation
+    }
+
+    private fun save() {
+        eventUseCases.insert(state.eventFormItem.value)
     }
 //
 //    private fun delete(foo: Long?) {

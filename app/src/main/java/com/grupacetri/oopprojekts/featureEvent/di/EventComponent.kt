@@ -2,7 +2,7 @@ package com.grupacetri.oopprojekts.featureEvent.di
 
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.core.di.DatabaseComponent
-import com.grupacetri.oopprojekts.featureEvent.ui.create.EventFormScreen
+import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases

@@ -13,7 +13,7 @@ data class EventFormItem(
     private val modified: String
 ) {
     fun toEvent(): Event {
-        return Event(id, name, comment, color, active.toLong(), created, modified)
+        return Event(id, name.trim(), comment?.trim(), color.trim(), active.toLong(), created, modified)
     }
 }
 
