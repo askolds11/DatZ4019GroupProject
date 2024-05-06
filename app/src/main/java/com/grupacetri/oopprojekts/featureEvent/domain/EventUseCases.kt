@@ -73,4 +73,11 @@ class EventUseCases(
         eventTimeInstanceRepository.insert(eventTimeInstance)
     }
 
+    fun getHistory(): Flow<List<EventHistoryItem>> {
+        return eventTimeInstanceRepository.getList().map {
+            it.mapIndexed { _, select ->
+                select.toEventHistoryItem()
+            }
+        }
+    }
 }

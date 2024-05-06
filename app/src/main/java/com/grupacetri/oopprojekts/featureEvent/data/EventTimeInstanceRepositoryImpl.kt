@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
+import com.grupacetri.oopprojekts.Select
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -17,6 +18,12 @@ class EventTimeInstanceRepositoryImpl (
 //    }
     override fun insert(eventTimeInstance: EventTimeInstance) {
         database.eventTimeInstanceQueries.insert(eventTimeInstance)
+    }
+
+    override fun getList(): Flow<List<Select>> { //return type is Unit
+        return database.eventTimeInstanceQueries.select().asFlow().map{
+            it.executeAsList()
+        }
     }
 
 

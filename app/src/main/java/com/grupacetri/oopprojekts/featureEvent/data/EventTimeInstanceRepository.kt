@@ -2,13 +2,14 @@ package com.grupacetri.oopprojekts.featureEvent.data
 
 import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
+import com.grupacetri.oopprojekts.Select
 import kotlinx.coroutines.flow.Flow
 
 interface EventTimeInstanceRepository {
 //    fun getList(): Flow<List<Event>>
     fun insert(eventTimeInstance: EventTimeInstance)
 
-
+    fun getList(): Flow<List<Select>>
 
     //fun delete(id: Int)
 

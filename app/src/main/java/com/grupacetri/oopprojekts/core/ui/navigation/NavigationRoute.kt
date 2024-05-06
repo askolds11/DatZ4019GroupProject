@@ -19,3 +19,12 @@ sealed class EventNavigationRoute : NavigationRoute() {
     @Serializable
     data object EventList: NavigationRoute()
 }
+
+sealed class HistoryNavigationRoute(route: String, args: String? = null) : NavigationRoute(route, args) {
+    data object HistoryList: NavigationRoute(
+        route = "HistoryList"
+    ) {
+        override val filledRoute
+            get() = route
+    }
+}
