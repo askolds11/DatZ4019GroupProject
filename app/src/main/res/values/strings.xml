@@ -2,4 +2,5 @@
     <string name="app_name">OOP Projekts</string>
     <string name="foo">Foo</string>
     <string name="event">Event</string>
+    <string name="history">History</string>
 </resources>

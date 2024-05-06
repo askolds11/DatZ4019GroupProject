@@ -2,6 +2,9 @@ package com.grupacetri.oopprojekts.featureEvent.data
 
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.EventTimeInstance
+import com.grupacetri.oopprojekts.Select
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class EventTimeInstanceRepositoryImpl (
     private val database: Database
@@ -15,6 +18,11 @@ class EventTimeInstanceRepositoryImpl (
         database.eventTimeInstanceQueries.insert(eventTimeInstance)
     }
 
+    override fun getList(): Flow<List<Select>> { //return type is Unit
+        return database.eventTimeInstanceQueries.select().asFlow().map{
+            it.executeAsList()
+        }
+    }
     override fun updateTimeEnded(eventId: Long, timeEnded: String) {
         database.eventTimeInstanceQueries.updateTimeEnded(timeEnded, eventId)
     }
