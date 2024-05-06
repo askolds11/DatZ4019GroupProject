@@ -50,15 +50,15 @@ fun EventListScreen(
 //        viewModel.onEvent(EventListScreenEvent.NavigateToRoute(null))
 //    }
 
-    ExampleContent(
+    EventListContent(
         viewModel.state,
-        {},
+        viewModel::onEvent,
         navigate
     )
 }
 
 @Composable
-private fun ExampleContent(
+private fun EventListContent(
     state: EventListScreenState,
     onEvent: (EventListScreenEvent) -> Unit,
     navigate: NavigateToRoute
@@ -107,6 +107,6 @@ private fun ExampleContentPreview() {
             EventItem(1, "Random","#000000", false),
             EventItem(2, "abbdb","#000000", true),
         ))
-        ExampleContent(state = state, onEvent = { }, navigate = { })
+        EventListContent(state = state, onEvent = { }, navigate = { })
     }
 }
