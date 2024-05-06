@@ -20,3 +20,4 @@ data class EventFormItem(
 fun Event.toEventFormItem(): EventFormItem {
     return EventFormItem(this.id, this.name, this.comment, this.color, this.active == 1L, this.created, this.modified)
 }
+

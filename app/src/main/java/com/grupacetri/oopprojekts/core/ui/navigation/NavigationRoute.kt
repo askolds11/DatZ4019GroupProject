@@ -27,3 +27,12 @@ sealed class EventNavigationRoute(route: String, args: String? = null) : Navigat
             get() = route
     }
 }
+
+sealed class HistoryNavigationRoute(route: String, args: String? = null) : NavigationRoute(route, args) {
+    data object HistoryList: NavigationRoute(
+        route = "HistoryList"
+    ) {
+        override val filledRoute
+            get() = route
+    }
+}

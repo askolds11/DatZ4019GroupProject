@@ -20,6 +20,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 
 // Add icons to top level (NavigationRoute) destinations
@@ -42,6 +43,13 @@ private sealed class TopScreen(
         Icons.Filled.Home,
         R.string.event
     )
+
+    data object History : TopScreen(
+        HistoryNavigationRoute.HistoryList.route,
+        Icons.Outlined.Home,
+        Icons.Filled.Home,
+        R.string.history
+    )
 }
 
 @Composable
@@ -51,7 +59,8 @@ fun BottomBar(
     val items = remember {
         listOf(
             TopScreen.Example1,
-            TopScreen.Event
+            TopScreen.Event,
+            TopScreen.History
         )
     }
     NavigationBar(
