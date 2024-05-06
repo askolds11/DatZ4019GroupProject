@@ -19,6 +19,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 
 // Add icons to top level (NavigationRoute) destinations
@@ -36,7 +37,7 @@ private sealed class TopScreen(
     )
 
     data object Event : TopScreen(
-        NavigationRoute.Event.route,
+        EventNavigationRoute.EventList.route,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.event

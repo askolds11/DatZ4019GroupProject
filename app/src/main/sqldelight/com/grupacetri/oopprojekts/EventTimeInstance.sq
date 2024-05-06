@@ -2,9 +2,12 @@ CREATE TABLE eventTimeInstance (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     event_id INTEGER NOT NULL,
     time_started TEXT NOT NULL,
-    time_ended TEXT NOT NULL,
+    time_ended TEXT,
     created TEXT NOT NULL,
     modified TEXT NOT NULL,
     FOREIGN KEY (event_id)
         REFERENCES event (id)
 );
+
+insert:
+     INSERT INTO eventTimeInstance (event_id, time_started, time_ended, created, modified) VALUES ?;

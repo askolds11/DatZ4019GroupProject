@@ -1,4 +1,8 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.list
 
-class EventListScreenEvent {
+
+
+sealed class EventListScreenEvent {
+    data class StartTracking (val id: Long) : EventListScreenEvent()
+
 }

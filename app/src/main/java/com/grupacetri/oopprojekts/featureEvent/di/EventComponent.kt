@@ -5,7 +5,10 @@ import com.grupacetri.oopprojekts.core.di.DatabaseComponent
 import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
+import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
+import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreen
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import me.tatarka.inject.annotations.Scope
@@ -25,7 +28,13 @@ abstract class EventComponent(
 
     @EventScope
     @Provides
-    fun provideEventUseCases(eventRepository: EventRepository): EventUseCases = EventUseCases(eventRepository)
+    fun provideEventTimeInstanceRepository(database: Database): EventTimeInstanceRepository = EventTimeInstanceRepositoryImpl(database)
+
+    @EventScope
+    @Provides
+    fun provideEventUseCases(eventRepository: EventRepository, eventTimeInstanceRepository: EventTimeInstanceRepository): EventUseCases = EventUseCases(eventRepository, eventTimeInstanceRepository)
 
     abstract val eventFormScreen: EventFormScreen
+
+    abstract val eventListScreen: EventListScreen
 }

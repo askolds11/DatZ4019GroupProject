@@ -19,3 +19,11 @@ sealed class NavigationRoute(val route: String, val args: String? = null) {
 }
 
 // later define navigation routes in graphs e.g. FooNavigationRoute
+sealed class EventNavigationRoute(route: String, args: String? = null) : NavigationRoute(route, args) {
+    data object EventList: NavigationRoute(
+        route = "EventList"
+    ) {
+        override val filledRoute
+            get() = route
+    }
+}
