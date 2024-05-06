@@ -12,5 +12,8 @@ CREATE TABLE eventTimeInstance (
 insert:
      INSERT INTO eventTimeInstance (event_id, time_started, time_ended, created, modified) VALUES ?;
 
+select:
+    SELECT t.id, e.name, t.time_started, t.time_ended  FROM eventTimeInstance t JOIN event e ON t.event_id = e.id ORDER BY t.time_started DESC;
+
 updateTimeEnded:
     UPDATE eventTimeInstance SET (time_ended) = (?) WHERE event_id = ?;

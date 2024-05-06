@@ -78,6 +78,13 @@ class EventUseCases(
         eventTimeInstanceRepository.insert(eventTimeInstance)
     }
 
+    fun getHistory(): Flow<List<EventHistoryItem>> {
+        return eventTimeInstanceRepository.getList().map {
+            it.mapIndexed { _, select ->
+                select.toEventHistoryItem()
+            }
+        }
+    }
     fun stopTracking(eventId: Long) {
         val timeEnded: String = Clock.System.now().toString()
         eventTimeInstanceRepository.updateTimeEnded(eventId, timeEnded)
