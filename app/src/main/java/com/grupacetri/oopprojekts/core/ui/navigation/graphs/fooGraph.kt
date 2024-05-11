@@ -5,8 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.grupacetri.oopprojekts.core.getThisApplication
-import com.grupacetri.oopprojekts.core.ui.navigation.Navigate
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 
 fun NavGraphBuilder.fooGraph(
     navController: NavController
@@ -18,8 +18,10 @@ fun NavGraphBuilder.fooGraph(
         composable(
             route = NavigationRoute.Foo.route
         ) {
+            val navigate = rememberNavigate(navController)
+
             val fooScreen = getThisApplication().fooComponent.fooScreen
-            fooScreen { route -> navController.Navigate(route = route) }
+            fooScreen(navigate)
         }
     }
 }

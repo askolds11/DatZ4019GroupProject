@@ -12,45 +12,49 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute
-import com.grupacetri.oopprojekts.featureFoo.domain.FooItem
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
+import com.grupacetri.oopprojekts.featureFoo.domain.FooItem
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import kotlin.random.Random
 
-typealias FooScreen = @Composable (navigate: NavigateToRoute) -> Unit
+typealias FooScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
 fun FooScreen(
     fooViewModel: () -> FooViewModel,
-    @Assisted navigate: NavigateToRoute
+    @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { fooViewModel() }
     viewModel.fooListFlow.collectAsStateWithLifecycle()
 
-    // clear navigation
-    LaunchedEffect(Unit) {
-        viewModel.onEvent(FooScreenEvent.NavigateToRoute(null))
+    SideEffectComposable(viewModel) {
+        when(it) {
+            FooScreenEvent.SideEffectEvent.NavigateToScreen999 -> {
+                navigate(NavigationRoute.Foo)
+            }
+        }
+        viewModel.resetSideEffect()
     }
 
     ExampleContent(
         viewModel.state,
-        viewModel::onEvent,
-        navigate
+        viewModel::onEvent
     )
 }
 
 @Composable
 private fun ExampleContent(
     state: FooScreenState,
-    onEvent: (FooScreenEvent) -> Unit,
-    navigate: NavigateToRoute
+    onEvent: (FooScreenEvent) -> Unit
 ) {
     LazyColumn {
         items(state.fooList) {
@@ -86,6 +90,13 @@ private fun ExampleContent(
                 }
             }
         }
+        item {
+            Button(onClick = {
+                onEvent(FooScreenEvent.SideEffectEvent.NavigateToScreen999)
+            }) {
+                Text(text = Random.nextInt().toString())
+            }
+        }
     }
 }
 
@@ -99,6 +110,6 @@ private fun ExampleContentPreview() {
             FooItem(1, "Random"),
             FooItem(2, "abbdb"),
         ))
-        ExampleContent(state = state, onEvent = { }, navigate = { })
+        ExampleContent(state = state, onEvent = { })
     }
 }

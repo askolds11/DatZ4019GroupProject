@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 
 typealias NavigateToRoute = @Composable (NavigationRoute) -> Unit
+typealias NavigateToRoute2 = (NavigationRoute) -> Unit
 
 // this function prevents navigation if you've already clicked on something and are in the
 // process of navigating
@@ -28,6 +29,7 @@ fun rememberCanNavigate(): State<Boolean> {
 }
 
 @Composable
+@Deprecated("Use the non-composable version")
 fun NavController.Navigate(route: NavigationRoute) {
     val navController = remember { this }
     val canNavigate by rememberCanNavigate()
@@ -36,5 +38,23 @@ fun NavController.Navigate(route: NavigationRoute) {
         if (canNavigate) {
             navController.navigate(route = route.filledRoute)
         }
+    }
+}
+
+
+@Composable
+fun rememberNavigate(navController: NavController): NavigateToRoute2 {
+    val canNavigate by rememberCanNavigate()
+
+    return remember(canNavigate) {
+        { route ->
+            navController.navigate(route, canNavigate)
+        }
+    }
+}
+
+fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean) {
+    if (canNavigate) {
+        this.navigate(route.filledRoute)
     }
 }
