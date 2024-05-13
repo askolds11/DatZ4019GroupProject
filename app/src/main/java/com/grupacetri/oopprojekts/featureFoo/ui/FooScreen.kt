@@ -23,7 +23,6 @@ import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureFoo.domain.FooItem
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
-import kotlin.random.Random
 
 typealias FooScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
@@ -42,7 +41,6 @@ fun FooScreen(
                 navigate(NavigationRoute.Foo)
             }
         }
-        viewModel.resetSideEffect()
     }
 
     ExampleContent(
@@ -94,7 +92,7 @@ private fun ExampleContent(
             Button(onClick = {
                 onEvent(FooScreenEvent.SideEffectEvent.NavigateToScreen999)
             }) {
-                Text(text = Random.nextInt().toString())
+                Text(text = state.randomText.value)
             }
         }
     }

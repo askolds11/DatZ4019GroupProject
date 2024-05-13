@@ -3,7 +3,6 @@ package com.grupacetri.oopprojekts.featureFoo.ui
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
-import com.grupacetri.oopprojekts.featureFoo.di.FooScope
 import com.grupacetri.oopprojekts.featureFoo.domain.FooUseCases
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,16 +11,21 @@ import kotlinx.coroutines.flow.shareIn
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-@FooScope
 class FooViewModel(
     private val fooUseCases: FooUseCases
 ) : SideEffectViewModel<FooScreenEvent.SideEffectEvent>() {
     val state = FooScreenState()
 
     init {
+        // Example of Dependency Injection scopes
+        // FooUseCases is scoped to the component,
+        // so all ViewModels gets the same instance each time - check the logcat!
         Log.d("Test", "${fooUseCases.hashCode()}")
     }
 
+    /**
+     * Flow that, when active, updates [FooScreenState.fooList] if there is a database update
+     */
     val fooListFlow: SharedFlow<Unit> = fooUseCases.getList()
         .map {
             state.fooList.clear()
