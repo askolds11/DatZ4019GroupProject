@@ -11,13 +11,19 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 
+@Deprecated("Use NavigateToRoute2 instead.")
 typealias NavigateToRoute = @Composable (NavigationRoute) -> Unit
 typealias NavigateToRoute2 = (NavigationRoute) -> Unit
 
 // this function prevents navigation if you've already clicked on something and are in the
 // process of navigating
+/**
+ * Get whether it is currently possible to navigate
+ *
+ * @return State of boolean, whether it is currently possible to navigate
+ */
 @Composable
-fun rememberCanNavigate(): State<Boolean> {
+private fun rememberCanNavigate(): State<Boolean> {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val canNavigate = remember(lifecycleState) {
@@ -42,6 +48,12 @@ fun NavController.Navigate(route: NavigationRoute) {
 }
 
 
+/**
+ * Get navigation function.
+ *
+ * @param navController navController from [androidx.navigation.compose.rememberNavController]
+ * @return Navigation function, that respects other active navigation (can not navigate simultaneously)
+ */
 @Composable
 fun rememberNavigate(navController: NavController): NavigateToRoute2 {
     val canNavigate by rememberCanNavigate()
@@ -53,7 +65,14 @@ fun rememberNavigate(navController: NavController): NavigateToRoute2 {
     }
 }
 
-fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean) {
+/**
+ * Navigate to a destination, if canNavigate is true.
+ *
+ * For canNavigate see [rememberNavigate]
+ * @param route route, to which to navigate
+ * @param canNavigate is navigation possible at this moment
+ */
+private fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean) {
     if (canNavigate) {
         this.navigate(route.filledRoute)
     }
