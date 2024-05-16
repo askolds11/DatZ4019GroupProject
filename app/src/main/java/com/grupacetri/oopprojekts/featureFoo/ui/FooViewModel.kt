@@ -1,6 +1,7 @@
 package com.grupacetri.oopprojekts.featureFoo.ui
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
 import com.grupacetri.oopprojekts.featureFoo.domain.FooUseCases
@@ -8,11 +9,13 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.shareIn
+import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class FooViewModel(
-    private val fooUseCases: FooUseCases
+    private val fooUseCases: FooUseCases,
+    @Assisted savedStateHandle: SavedStateHandle
 ) : SideEffectViewModel<FooScreenEvent.SideEffectEvent>() {
     val state = FooScreenState()
 

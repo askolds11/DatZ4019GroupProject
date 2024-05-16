@@ -14,10 +14,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
+import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureFoo.domain.FooItem
@@ -29,16 +31,16 @@ typealias FooScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 @Inject
 @Composable
 fun FooScreen(
-    fooViewModel: () -> FooViewModel,
+    fooViewModel: (SavedStateHandle) -> FooViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { fooViewModel() }
+    val viewModel = viewModel { fooViewModel(createSavedStateHandle()) }
     viewModel.fooListFlow.collectAsStateWithLifecycle()
 
     SideEffectComposable(viewModel) {
         when(it) {
             FooScreenEvent.SideEffectEvent.NavigateToScreen999 -> {
-                navigate(NavigationRoute.Foo)
+                navigate(FooNavigationRoute.Foo)
             }
         }
     }

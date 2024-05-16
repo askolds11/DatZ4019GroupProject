@@ -1,24 +1,19 @@
 package com.grupacetri.oopprojekts.core.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 
-@Deprecated("Use NavigateToRoute2 instead.")
-typealias NavigateToRoute = @Composable (NavigationRoute) -> Unit
 typealias NavigateToRoute2 = (NavigationRoute) -> Unit
 
-// this function prevents navigation if you've already clicked on something and are in the
-// process of navigating
 /**
- * Get whether it is currently possible to navigate
+ * Get whether it is currently possible to navigate (a navigation is not in progress)
  *
  * @return State of boolean, whether it is currently possible to navigate
  */
@@ -33,20 +28,6 @@ private fun rememberCanNavigate(): State<Boolean> {
     }
     return canNavigate
 }
-
-@Composable
-@Deprecated("Use the non-composable version")
-fun NavController.Navigate(route: NavigationRoute) {
-    val navController = remember { this }
-    val canNavigate by rememberCanNavigate()
-
-    LaunchedEffect(key1 = Unit) {
-        if (canNavigate) {
-            navController.navigate(route = route.filledRoute)
-        }
-    }
-}
-
 
 /**
  * Get navigation function.
@@ -74,6 +55,6 @@ fun rememberNavigate(navController: NavController): NavigateToRoute2 {
  */
 private fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean) {
     if (canNavigate) {
-        this.navigate(route.filledRoute)
+        this.navigate(route)
     }
 }
