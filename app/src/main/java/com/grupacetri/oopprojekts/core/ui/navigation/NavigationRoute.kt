@@ -19,9 +19,10 @@ sealed class EventNavigationRoute : NavigationRoute() {
     @Serializable
     data object EventList: NavigationRoute()
 }
-
 @Serializable
 sealed class HistoryNavigationRoute : NavigationRoute() {
     @Serializable
     data object HistoryList: NavigationRoute()
+    @Serializable
+    data class EventTimeInstanceForm(val id: Long): NavigationRoute()
 }

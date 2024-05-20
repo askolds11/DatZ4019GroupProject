@@ -17,6 +17,9 @@ import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 
 typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
@@ -26,6 +29,7 @@ fun EventHistoryScreen(
     eventViewModel: () -> EventHistoryScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
+   navigate(HistoryNavigationRoute.EventTimeInstanceForm(1))
     val viewModel = viewModel { eventViewModel() }
     viewModel.eventHistoryFlow.collectAsStateWithLifecycle()
 

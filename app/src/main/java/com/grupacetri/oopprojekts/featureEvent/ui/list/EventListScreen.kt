@@ -25,6 +25,7 @@ import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureEvent.domain.EventItem
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 
 typealias EventListScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 

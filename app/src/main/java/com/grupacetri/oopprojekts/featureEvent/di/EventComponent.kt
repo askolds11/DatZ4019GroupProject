@@ -8,6 +8,7 @@ import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+import com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm.EventTimeInstanceFormScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.history.EventHistoryScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreen
 import me.tatarka.inject.annotations.Component
@@ -40,4 +41,6 @@ abstract class EventComponent(
     abstract val eventListScreen: EventListScreen
 
     abstract val eventHistoryScreen: EventHistoryScreen
+
+    abstract val eventTimeInstanceFormScreen: EventTimeInstanceFormScreen
 }
