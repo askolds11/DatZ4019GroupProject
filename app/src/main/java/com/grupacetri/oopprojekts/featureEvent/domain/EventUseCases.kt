@@ -80,4 +80,10 @@ class EventUseCases(
             }
         }
     }
+
+    fun selectById(id: Long): Flow<EventTimeInstanceFormItem> {
+        return eventTimeInstanceRepository.select(id).map {
+            it.toEventTimeInstanceFormItem()
+        }
+    }
 }

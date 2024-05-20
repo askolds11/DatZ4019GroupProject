@@ -14,3 +14,6 @@ insert:
 
 select:
     SELECT t.id, e.name, t.time_started, t.time_ended  FROM eventTimeInstance t JOIN event e ON t.event_id = e.id ORDER BY t.time_started DESC;
+
+selectById:
+    SELECT * FROM eventTimeInstance WHERE id = ?;

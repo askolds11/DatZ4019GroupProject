@@ -1,10 +1,12 @@
 package com.grupacetri.oopprojekts.featureEvent.data
 
 import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.Select
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -27,9 +29,11 @@ class EventTimeInstanceRepositoryImpl (
     }
 
 
-//    override fun select(id: Long) {
-//        database.eventQueries.select(id)
-//    }
+    override fun select(id: Long): Flow<EventTimeInstance> {
+        return database.eventTimeInstanceQueries.selectById(id).asFlow().map{
+            it.executeAsOne()
+        }
+    }
 
 //    override fun update(name: String, comment: String?, color: String, active: Long, modified: String) {
 //        database.eventQueries.update(name, comment, color, active, modified)

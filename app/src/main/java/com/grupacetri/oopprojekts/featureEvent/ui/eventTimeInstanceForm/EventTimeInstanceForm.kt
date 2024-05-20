@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.form
+package com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,28 +15,27 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
-import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 //import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
-typealias EventFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
+typealias EventTimeInstanceFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
-fun EventFormScreen(
-    eventFormViewModel: () -> EventFormViewModel,
+fun EventTimeInstanceFormScreen(
+    eventTimeInstanceFormViewModel: () -> EventTimeInstanceFormViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { eventFormViewModel() }
+    val viewModel = viewModel { eventTimeInstanceFormViewModel() }
 //    viewModel.eventListFlow.collectAsStateWithLifecycle()
 
     // clear navigation
 //    LaunchedEffect(Unit) {
-//        viewModel.onEvent(FooScreenEvent.NavigateToRoute2(null))
+//        viewModel.onEvent(FooScreenEvent.NavigateToRoute(null))
 //    }
 
-    EventFormScreenContent(
+    EventTimeInstanceFormScreenContent(
         viewModel.state,
         viewModel::onEvent,
         navigate
@@ -44,53 +43,33 @@ fun EventFormScreen(
 }
 
 @Composable
-private fun EventFormScreenContent(
-    state: EventFormScreenState,
-    onEvent: (EventFormScreenEvent) -> Unit,
+private fun EventTimeInstanceFormScreenContent(
+    state: EventTimeInstanceFormScreenState,
+    onEvent: (EventTimeInstanceFormEvent) -> Unit,
     navigate: NavigateToRoute2
 ) {
     Column{
-        EventFormTextField(
-            label = "Enter new name",
-            error = when(state.nameValidation.value) {
-                EventUseCases.EventNameError.IS_EMPTY -> "Name cannot be empty."
-                EventUseCases.EventNameError.TOO_LONG -> "Name must be less than 100."
-                null -> null
-            },
-            value = state.eventFormItem.value.name,
+        EventTimeInstanceFormTextField(
+            label = "Start time",
+            value = "",
             onValueChange = {
-                onEvent(EventFormScreenEvent.UpdateName(it))
+                onEvent(EventTimeInstanceFormEvent.UpdateTimeStarted(it))
             },
         )
         Spacer(modifier = Modifier.height(10.dp))
-        EventFormTextField(
-            label = "Comment",
-            value = state.eventFormItem.value.comment ?: "",
+        EventTimeInstanceFormTextField(
+            label = "End time",
+            value = "",
             onValueChange = {
-                onEvent(EventFormScreenEvent.UpdateComment(it))
+                onEvent(EventTimeInstanceFormEvent.UpdateTimeEnded(it))
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
-        EventFormTextField(
-            label = "Color",
-            value = state.eventFormItem.value.color,
-            onValueChange = {
-                onEvent(EventFormScreenEvent.UpdateColor(it))
-            }
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        EventFormTextField(
-            label = "Category",
-            value = "Category",
-            onValueChange = {}
-        )
-        Spacer(modifier = Modifier.height(100.dp))
-
 
 
         Button(
             onClick = {
-                onEvent(EventFormScreenEvent.Save)
+                onEvent(EventTimeInstanceFormEvent.Save)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,7 +83,7 @@ private fun EventFormScreenContent(
 }
 
 @Composable
-private fun EventFormTextField(
+private fun EventTimeInstanceFormTextField(
     label: String,
     error: String? = null,
     value: String,
@@ -132,8 +111,7 @@ private fun EventFormTextField(
 @Composable
 private fun EventFormExampleContentPreview() {
     OOPProjektsTheme {
-        val state = EventFormScreenState()
-        EventFormScreenContent(state = state, onEvent = {}, navigate = {})
-
+        val state = EventTimeInstanceFormScreenState()
+        EventTimeInstanceFormScreenContent(state = state, onEvent = {}, navigate = {})
     }
 }

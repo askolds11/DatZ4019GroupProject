@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureEvent.domain.EventItem
@@ -25,21 +25,25 @@ import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 
-typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute) -> Unit
+typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
 fun EventHistoryScreen(
     eventViewModel: () -> EventHistoryScreenViewModel,
-    @Assisted navigate: NavigateToRoute
+    @Assisted navigate: NavigateToRoute2
 ) {
+   navigate(HistoryNavigationRoute.EventTimeInstanceForm(1))
     val viewModel = viewModel { eventViewModel() }
     viewModel.eventHistoryFlow.collectAsStateWithLifecycle()
 
     // clear navigation
 //    LaunchedEffect(Unit) {
-//        viewModel.onEvent(EventListScreenEvent.NavigateToRoute(null))
+//        viewModel.onEvent(EventListScreenEvent.NavigateToRoute2(null))
 //    }
 
     ExampleContent(
@@ -53,13 +57,13 @@ fun EventHistoryScreen(
 private fun ExampleContent(
     state: EventHistoryScreenState,
     onEvent: (EventHistoryScreenEvent) -> Unit,
-    navigate: NavigateToRoute
+    navigate: NavigateToRoute2
 ) {
     var nav_var by remember {
         mutableStateOf(false)
     }
     if (nav_var) {
-        navigate(NavigationRoute.Event)
+        navigate(EventNavigationRoute.Event)
     }
     LazyColumn {
         items(state.eventHistoryList) {

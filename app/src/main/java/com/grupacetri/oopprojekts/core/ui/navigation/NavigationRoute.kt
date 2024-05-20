@@ -14,20 +14,17 @@ sealed class FooNavigationRoute: NavigationRoute() {
     data object Foo: FooNavigationRoute()
 }
 // later define navigation routes in graphs e.g. FooNavigationRoute
-sealed class EventNavigationRoute(route: String, args: String? = null) : NavigationRoute(route, args) {
-    data object EventList: NavigationRoute(
-        route = "EventList"
-    ) {
-        override val filledRoute
-            get() = route
-    }
+@Serializable
+sealed class EventNavigationRoute : NavigationRoute() {
+    @Serializable
+    data object Event: NavigationRoute()
+    @Serializable
+    data object EventList: NavigationRoute()
 }
-
-sealed class HistoryNavigationRoute(route: String, args: String? = null) : NavigationRoute(route, args) {
-    data object HistoryList: NavigationRoute(
-        route = "HistoryList"
-    ) {
-        override val filledRoute
-            get() = route
-    }
+@Serializable
+sealed class HistoryNavigationRoute : NavigationRoute() {
+    @Serializable
+    data object HistoryList: NavigationRoute()
+    @Serializable
+    data class EventTimeInstanceForm(val id: Long): NavigationRoute()
 }

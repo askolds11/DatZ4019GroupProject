@@ -7,9 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.grupacetri.oopprojekts.core.ui.navigation.graphs.NavigationGraph
-import com.grupacetri.oopprojekts.core.ui.navigation.graphs.eventGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.graphs.eventGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.fooGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.historyGraph
 
