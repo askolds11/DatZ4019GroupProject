@@ -15,37 +15,39 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
+import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 
 // Add icons to top level (NavigationRoute) destinations
 private sealed class TopScreen(
-    val route: String,
+    val route: NavigationRoute,
     val iconInactive: ImageVector,
     val iconActive: ImageVector,
     @StringRes val resourceId: Int
 ) {
-    data object Example1 : TopScreen(
-        NavigationRoute.Foo.route,
+    data object Foo : TopScreen(
+        FooNavigationRoute.Foo,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.foo
     )
 
     data object Event : TopScreen(
-        EventNavigationRoute.EventList.route,
+        EventNavigationRoute.EventList,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.event
     )
 
     data object History : TopScreen(
-        HistoryNavigationRoute.HistoryList.route,
+        HistoryNavigationRoute.HistoryList,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.history
@@ -58,7 +60,7 @@ fun BottomBar(
 ) {
     val items = remember {
         listOf(
-            TopScreen.Example1,
+            TopScreen.Foo,
             TopScreen.Event,
             TopScreen.History
         )
@@ -72,7 +74,7 @@ fun BottomBar(
         items.forEach { screen ->
             NavigationBarItem(
                 icon = {
-                    if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {
+                    if (currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true) {
                         Icon(screen.iconActive, contentDescription = null)
                     } else {
                         Icon(screen.iconInactive, contentDescription = null)
@@ -81,7 +83,7 @@ fun BottomBar(
                 label = {
                     Text(text = stringResource(screen.resourceId))
                 },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                selected = currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true,
                 onClick = {
                     navController.navigate(screen.route) {
                         // Pop up to the start destination of the graph to
