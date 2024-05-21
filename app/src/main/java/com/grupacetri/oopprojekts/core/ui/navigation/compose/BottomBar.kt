@@ -47,7 +47,7 @@ private sealed class TopScreen(
     )
 
     data object History : TopScreen(
-        HistoryNavigationRoute.HistoryList.route,
+        HistoryNavigationRoute.HistoryList,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.history
