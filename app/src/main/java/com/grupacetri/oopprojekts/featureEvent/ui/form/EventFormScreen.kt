@@ -13,27 +13,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 //import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
-typealias EventFormScreen = @Composable (navigate: NavigateToRoute) -> Unit
+typealias EventFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
 fun EventFormScreen(
     eventFormViewModel: () -> EventFormViewModel,
-    @Assisted navigate: NavigateToRoute
+    @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { eventFormViewModel() }
 //    viewModel.eventListFlow.collectAsStateWithLifecycle()
 
     // clear navigation
 //    LaunchedEffect(Unit) {
-//        viewModel.onEvent(FooScreenEvent.NavigateToRoute(null))
+//        viewModel.onEvent(FooScreenEvent.NavigateToRoute2(null))
 //    }
 
     EventFormScreenContent(
@@ -47,7 +47,7 @@ fun EventFormScreen(
 private fun EventFormScreenContent(
     state: EventFormScreenState,
     onEvent: (EventFormScreenEvent) -> Unit,
-    navigate: NavigateToRoute
+    navigate: NavigateToRoute2
 ) {
     Column{
         EventFormTextField(

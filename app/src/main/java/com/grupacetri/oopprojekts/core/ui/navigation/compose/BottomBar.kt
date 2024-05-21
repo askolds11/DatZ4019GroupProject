@@ -39,7 +39,7 @@ private sealed class TopScreen(
     )
 
     data object Event : TopScreen(
-        EventNavigationRoute.EventList.route,
+        EventNavigationRoute.EventList,
         Icons.Outlined.Home,
         Icons.Filled.Home,
         R.string.event
@@ -52,8 +52,7 @@ fun BottomBar(
 ) {
     val items = remember {
         listOf(
-            TopScreen.Foo
-
+            TopScreen.Foo,
             TopScreen.Event
         )
     }
