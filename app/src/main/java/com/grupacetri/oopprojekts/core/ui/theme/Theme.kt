@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.grupacetri.oopprojekts.featureSettings.domain.AllSettings
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -39,11 +40,17 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun OOPProjektsTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    theme: AllSettings.Theme = AllSettings.Theme(AllSettings.Theme.ThemeValue.SYSTEM),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val darkTheme = if (theme.theme == AllSettings.Theme.ThemeValue.SYSTEM) {
+        isSystemInDarkTheme()
+    } else {
+        theme.theme == AllSettings.Theme.ThemeValue.DARK
+    }
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current

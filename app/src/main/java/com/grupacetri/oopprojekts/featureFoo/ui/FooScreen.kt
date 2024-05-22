@@ -39,9 +39,7 @@ fun FooScreen(
 
     SideEffectComposable(viewModel) {
         when(it) {
-            FooScreenEvent.SideEffectEvent.NavigateToScreen999 -> {
-                navigate(FooNavigationRoute.Foo)
-            }
+            FooScreenEvent.SideEffectEvent.NavigateToScreen999 -> navigate(FooNavigationRoute.Foo)
         }
     }
 
