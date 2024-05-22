@@ -18,7 +18,7 @@ typealias NavigateToRoute2 = (NavigationRoute) -> Unit
  * @return State of boolean, whether it is currently possible to navigate
  */
 @Composable
-private fun rememberCanNavigate(): State<Boolean> {
+fun rememberCanNavigate(): State<Boolean> {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val canNavigate = remember(lifecycleState) {

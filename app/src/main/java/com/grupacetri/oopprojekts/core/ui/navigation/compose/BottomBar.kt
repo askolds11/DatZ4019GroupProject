@@ -3,7 +3,9 @@ package com.grupacetri.oopprojekts.core.ui.navigation.compose
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,6 +26,9 @@ import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.SettingsNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.rememberCanNavigate
+import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 
 // Add icons to top level (NavigationRoute) destinations
 private sealed class TopScreen(
@@ -52,6 +57,12 @@ private sealed class TopScreen(
         Icons.Filled.Home,
         R.string.history
     )
+    data object Settings : TopScreen(
+        SettingsNavigationRoute.SettingsList,
+        Icons.Outlined.Settings,
+        Icons.Filled.Settings,
+        R.string.settings
+    )
 }
 
 @Composable
@@ -62,7 +73,8 @@ fun BottomBar(
         listOf(
             TopScreen.Foo,
             TopScreen.Event,
-            TopScreen.History
+            TopScreen.History,
+            TopScreen.Settings
         )
     }
     NavigationBar(
@@ -71,6 +83,7 @@ fun BottomBar(
         // see https://developer.android.com/jetpack/compose/navigation#bottom-nav
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
+        val canNavigate by rememberCanNavigate()
         items.forEach { screen ->
             NavigationBarItem(
                 icon = {
@@ -85,18 +98,20 @@ fun BottomBar(
                 },
                 selected = currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                    if (canNavigate) {
+                        navController.navigate(screen.route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
                     }
                 }
             )

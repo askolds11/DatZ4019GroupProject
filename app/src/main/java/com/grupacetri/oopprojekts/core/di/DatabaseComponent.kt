@@ -1,9 +1,11 @@
 package com.grupacetri.oopprojekts.core.di
 
 import android.content.Context
+import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.grupacetri.oopprojekts.Database
+import com.grupacetri.oopprojekts.Settings
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import me.tatarka.inject.annotations.Scope
@@ -24,5 +26,11 @@ abstract class DatabaseComponent(
     // one instance of the database for whole app
     @DatabaseScope
     @Provides
-    fun provideDatabase(sqlDriver: SqlDriver): Database = Database(sqlDriver)
+    fun provideDatabase(sqlDriver: SqlDriver): Database = Database(
+        sqlDriver,
+        settingsAdapter = Settings.Adapter(
+            keyAdapter = EnumColumnAdapter(),
+            categoryAdapter = EnumColumnAdapter()
+        )
+    )
 }

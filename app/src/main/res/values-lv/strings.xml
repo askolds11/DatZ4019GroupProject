@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OOP Projekts</string>
+    <string name="foo">Foo LV</string>
+    <string name="settings">Iestatījumi</string>
+    <string name="theme">Izskats</string>
+    <string name="dark">Tumšs</string>
+    <string name="light">Gaišs</string>
+    <string name="system">Sistēma</string>
+    <string name="language_system">📱 Sistēma</string>
+    <string name="choose_language">Izvēlēties valodu</string>
+    <string name="cancel">Atcelt</string>
+    <string name="language">Valoda</string>
+</resources>

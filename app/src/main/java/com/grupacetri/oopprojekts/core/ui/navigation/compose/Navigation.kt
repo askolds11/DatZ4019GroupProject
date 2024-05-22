@@ -11,6 +11,7 @@ import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.eventGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.fooGraph
 import com.grupacetri.oopprojekts.core.ui.navigation.graphs.historyGraph
+import com.grupacetri.oopprojekts.core.ui.navigation.graphs.settingsGraph
 
 @Composable
 fun Navigation() {
@@ -28,6 +29,7 @@ fun Navigation() {
             fooGraph(navController)
             eventGraph(navController)
             historyGraph(navController)
+            settingsGraph(navController)
         }
     }
 }

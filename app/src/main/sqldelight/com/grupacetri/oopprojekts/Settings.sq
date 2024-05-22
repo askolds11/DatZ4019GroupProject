@@ -1,0 +1,28 @@
+import com.grupacetri.oopprojekts.featureSettings.data.SettingsCategory;
+import com.grupacetri.oopprojekts.featureSettings.data.SettingsKey;
+
+CREATE TABLE settings (
+    key TEXT AS SettingsKey PRIMARY KEY,
+    category TEXT AS SettingsCategory NOT NULL,
+    value TEXT NOT NULL
+);
+
+CREATE INDEX settings_category ON settings(category);
+
+insert:
+INSERT INTO settings (key, category, value) VALUES (?, ?, ?);
+
+update:
+UPDATE settings SET value = ? WHERE key = ?;
+
+insertOrUpdate:
+INSERT OR REPLACE INTO settings (key, category, value) VALUES (?, ?, ?);
+
+selectByKey:
+SELECT * FROM settings WHERE key = ?;
+
+selectByCategory:
+SELECT * FROM settings WHERE category = ?;
+
+delete:
+DELETE FROM settings WHERE key = ?;
