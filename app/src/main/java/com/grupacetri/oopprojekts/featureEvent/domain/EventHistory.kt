@@ -8,10 +8,11 @@ data class EventHistoryItem(
     val id: Long,
     val name: String,
     val time_created: String,
-    val time_ended: String
+    val time_ended: String,
+    val diff: Long
 )
 
 fun Select.toEventHistoryItem(): EventHistoryItem {
-    return EventHistoryItem(this.id, this.name, this.time_started, this.time_ended ?: "")
+    return EventHistoryItem(this.id, this.name, this.time_started, this.time_ended ?: "", this.diff)
 }
 
