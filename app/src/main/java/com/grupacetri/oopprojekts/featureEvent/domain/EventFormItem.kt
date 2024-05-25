@@ -1,6 +1,7 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
 import com.grupacetri.oopprojekts.Event
+import com.grupacetri.oopprojekts.SelectBit
 import com.grupacetri.oopprojekts.core.toLong
 
 data class EventFormItem(
@@ -9,6 +10,7 @@ data class EventFormItem(
     val comment: String?,
     val color: String,
     val active: Boolean,
+    val started: Boolean,
     private val created: String,
     private val modified: String
 ) {
@@ -18,5 +20,27 @@ data class EventFormItem(
 }
 
 fun Event.toEventFormItem(): EventFormItem {
-    return EventFormItem(this.id, this.name, this.comment, this.color, this.active == 1L, this.created, this.modified)
+    return EventFormItem(
+        this.id,
+        this.name,
+        this.comment,
+        this.color,
+        this.active == 1L,
+        false,
+        this.created,
+        this.modified
+    )
+}
+
+fun SelectBit.toEventFormItem(): EventFormItem {
+    return EventFormItem(
+        this.id,
+        this.name,
+        this.comment,
+        this.color,
+        this.active == 1L,
+        this.bit,
+        this.created,
+        this.modified
+    )
 }

@@ -1,13 +1,12 @@
 package com.grupacetri.oopprojekts.featureEvent.data
 
-import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
-import kotlinx.coroutines.flow.Flow
 
 interface EventTimeInstanceRepository {
 //    fun getList(): Flow<List<Event>>
     fun insert(eventTimeInstance: EventTimeInstance)
 
+    fun updateTimeEnded(eventId: Long, timeEnded: String)
 
 
     //fun delete(id: Int)

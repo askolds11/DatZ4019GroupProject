@@ -22,3 +22,15 @@ SELECT * FROM event WHERE id = ?; --varb te vajag pēc citiem parametriem meklē
 
 delete:
 DELETE FROM event WHERE id = ?;
+
+selectStarted:
+SELECT event.*
+    FROM eventTimeInstance
+    INNER JOIN event ON eventTimeInstance.event_id = event.id
+    WHERE eventTimeInstance.time_ended IS NULL;
+
+selectBit:
+SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
+    FROM event
+    LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
+    AND eventTimeInstance.time_ended IS NULL;

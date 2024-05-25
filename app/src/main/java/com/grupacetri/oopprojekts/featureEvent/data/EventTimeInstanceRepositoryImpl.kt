@@ -1,11 +1,7 @@
 package com.grupacetri.oopprojekts.featureEvent.data
 
-import app.cash.sqldelight.coroutines.asFlow
 import com.grupacetri.oopprojekts.Database
-import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class EventTimeInstanceRepositoryImpl (
     private val database: Database
@@ -17,6 +13,10 @@ class EventTimeInstanceRepositoryImpl (
 //    }
     override fun insert(eventTimeInstance: EventTimeInstance) {
         database.eventTimeInstanceQueries.insert(eventTimeInstance)
+    }
+
+    override fun updateTimeEnded(eventId: Long, timeEnded: String) {
+        database.eventTimeInstanceQueries.updateTimeEnded(timeEnded, eventId)
     }
 
 

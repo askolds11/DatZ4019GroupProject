@@ -3,12 +3,9 @@ package com.grupacetri.oopprojekts.featureEvent.domain
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
-import com.grupacetri.oopprojekts.featureEvent.domain.EventFormItem
-import com.grupacetri.oopprojekts.featureEvent.domain.toEventFormItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
-import java.time.LocalDateTime
 
 class EventUseCases(
     private val eventRepository: EventRepository,
@@ -68,9 +65,31 @@ class EventUseCases(
         TOO_LONG,
     }
 
-    fun start_tracking(event_id: Long) {
-        val eventTimeInstance: EventTimeInstance = EventTimeInstance(0, event_id, Clock.System.now().toString(), null, Clock.System.now().toString(), Clock.System.now().toString())
+    fun startTracking(eventId: Long) {
+        val eventTimeInstance: EventTimeInstance = EventTimeInstance(0, eventId, Clock.System.now().toString(), null, Clock.System.now().toString(), Clock.System.now().toString())
         eventTimeInstanceRepository.insert(eventTimeInstance)
     }
+
+    fun stopTracking(eventId: Long) {
+        val timeEnded: String = Clock.System.now().toString()
+        eventTimeInstanceRepository.updateTimeEnded(eventId, timeEnded)
+    }
+
+    fun getStarted(): Flow<List<EventItem>> {
+        return eventRepository.selectStarted().map{
+            it.map { event ->
+                event.toEventItem()
+            }
+        }
+    }
+
+    fun getBit(): Flow<List<EventItem>> {
+        return eventRepository.selectBit().map{
+            it.map { event ->
+                event.toEventItem()
+            }
+        }
+    }
+
 
 }

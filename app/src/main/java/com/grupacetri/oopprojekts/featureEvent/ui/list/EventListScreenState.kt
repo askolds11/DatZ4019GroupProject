@@ -5,4 +5,6 @@ import com.grupacetri.oopprojekts.featureEvent.domain.EventItem
 
 class EventListScreenState {
     val eventList = mutableStateListOf<EventItem>()
+
+    val startedEventList = mutableStateListOf<EventItem>()
 }

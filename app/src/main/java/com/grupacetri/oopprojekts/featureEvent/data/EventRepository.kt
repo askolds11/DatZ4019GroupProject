@@ -1,12 +1,16 @@
 package com.grupacetri.oopprojekts.featureEvent.data
 
 import com.grupacetri.oopprojekts.Event
+import com.grupacetri.oopprojekts.SelectBit
 import kotlinx.coroutines.flow.Flow
 
 interface EventRepository {
     fun getList(): Flow<List<Event>>
     fun insert(event: Event)
 
+    fun selectStarted(): Flow<List<Event>>
+
+    fun selectBit(): Flow<List<SelectBit>>
 
 
     //fun delete(id: Int)
