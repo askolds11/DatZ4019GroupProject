@@ -1,6 +1,6 @@
 [versions]
-agp = "8.4.0"
-kotlin = "1.9.23"
+agp = "8.4.1"
+kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -8,9 +8,8 @@ espressoCore = "3.5.1"
 kotlinInjectRuntime = "0.6.3"
 lifecycle = "2.8.0"
 sqlDelight = "2.0.1"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.21"
 navigationCompose = "2.8.0-beta01"
-kotlinComposeCompiler = "1.5.13"
 serialization = "1.6.3"
 kotlinXDatetime = "0.5.0"
 
@@ -35,5 +34,5 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sqlDelight = {id = "app.cash.sqldelight", version.ref = "sqlDelight"}
 ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinComposeCompiler" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
