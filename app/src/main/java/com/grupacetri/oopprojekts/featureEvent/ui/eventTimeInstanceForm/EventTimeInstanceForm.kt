@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
@@ -24,10 +26,10 @@ typealias EventTimeInstanceFormScreen = @Composable (navigate: NavigateToRoute2)
 @Inject
 @Composable
 fun EventTimeInstanceFormScreen(
-    eventTimeInstanceFormViewModel: () -> EventTimeInstanceFormViewModel,
+    eventTimeInstanceFormViewModel: (SavedStateHandle) -> EventTimeInstanceFormViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { eventTimeInstanceFormViewModel() }
+    val viewModel = viewModel { eventTimeInstanceFormViewModel(createSavedStateHandle()) }
 //    viewModel.eventListFlow.collectAsStateWithLifecycle()
 
     // clear navigation
@@ -51,7 +53,7 @@ private fun EventTimeInstanceFormScreenContent(
     Column{
         EventTimeInstanceFormTextField(
             label = "Start time",
-            value = "",
+            value = state.eventFormItem.value.time_created,
             onValueChange = {
                 onEvent(EventTimeInstanceFormEvent.UpdateTimeStarted(it))
             },
@@ -59,7 +61,7 @@ private fun EventTimeInstanceFormScreenContent(
         Spacer(modifier = Modifier.height(10.dp))
         EventTimeInstanceFormTextField(
             label = "End time",
-            value = "",
+            value = state.eventFormItem.value.time_ended,
             onValueChange = {
                 onEvent(EventTimeInstanceFormEvent.UpdateTimeEnded(it))
             }
@@ -77,7 +79,7 @@ private fun EventTimeInstanceFormScreenContent(
                 .height(100.dp)
         )
         {
-            Text(text = "ADD NEW")
+            Text(text = "SAVE")
         }
     }
 }

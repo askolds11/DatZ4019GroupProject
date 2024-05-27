@@ -1,5 +1,6 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.history
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,8 +27,11 @@ import me.tatarka.inject.annotations.Inject
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
+import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
 
 typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
@@ -37,37 +41,32 @@ fun EventHistoryScreen(
     eventViewModel: () -> EventHistoryScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-   navigate(HistoryNavigationRoute.EventTimeInstanceForm(1))
     val viewModel = viewModel { eventViewModel() }
     viewModel.eventHistoryFlow.collectAsStateWithLifecycle()
 
-    // clear navigation
-//    LaunchedEffect(Unit) {
-//        viewModel.onEvent(EventListScreenEvent.NavigateToRoute2(null))
-//    }
+    SideEffectComposable(viewModel) {
+        when(it) {
+            is EventHistoryScreenEvent.SideEffectEvent.NavigateToForm -> {
+                navigate(HistoryNavigationRoute.EventTimeInstanceForm(it.id))
+            }
+        }
+    }
 
-    ExampleContent(
+    EventHistoryContent(
         viewModel.state,
-        {},
-        navigate
+        viewModel::onEvent
     )
 }
 
 @Composable
-private fun ExampleContent(
+private fun EventHistoryContent(
     state: EventHistoryScreenState,
-    onEvent: (EventHistoryScreenEvent) -> Unit,
-    navigate: NavigateToRoute2
+    onEvent: (EventHistoryScreenEvent) -> Unit
 ) {
-    var nav_var by remember {
-        mutableStateOf(false)
-    }
-    if (nav_var) {
-        navigate(EventNavigationRoute.Event)
-    }
+
     LazyColumn {
         items(state.eventHistoryList) {
-            Row {
+            Row(modifier = Modifier.clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(it.id)) }) {
                 Text(it.name)
                 Text(it.time_created)
                 Text(it.time_ended)
