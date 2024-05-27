@@ -1,0 +1,39 @@
+CREATE TABLE event (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    comment TEXT,
+    color TEXT DEFAULT "#000000" NOT NULL,
+    active INTEGER DEFAULT 1 NOT NULL,
+    created TEXT NOT NULL,
+    modified TEXT NOT NULL
+);
+
+insert:
+    INSERT INTO event (name, comment, color, active, created, modified) VALUES ?;
+
+update:
+    INSERT OR REPLACE INTO event (id, name, comment, color, active, created, modified) VALUES ?;
+
+selectlist:
+SELECT * FROM event;
+
+select:
+SELECT * FROM event WHERE id = ?; --varb te vajag pēc citiem parametriem meklēt (piem. created/modified)
+
+delete:
+DELETE FROM event WHERE id = ?;
+
+selectStarted:
+SELECT event.*
+    FROM eventTimeInstance
+    INNER JOIN event ON eventTimeInstance.event_id = event.id
+    WHERE eventTimeInstance.time_ended IS NULL;
+
+selectBit:
+SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
+    FROM event
+    LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
+    AND eventTimeInstance.time_ended IS NULL;
+
+selectById:
+SELECT * FROM event WHERE id = ?;

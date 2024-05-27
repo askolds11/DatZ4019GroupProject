@@ -75,6 +75,7 @@ dependencies {
     androidTestImplementation(compose.androidx.ui.test.junit4)
     debugImplementation(compose.androidx.ui.tooling)
     debugImplementation(compose.androidx.ui.test.manifest)
+    implementation(libs.kotlinx.datetime)
 }
 
 sqldelight {
