@@ -3,7 +3,6 @@ package com.grupacetri.oopprojekts.featureEvent.data
 import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.SelectBit
 import kotlinx.coroutines.flow.Flow
-
 interface EventRepository {
     fun getList(): Flow<List<Event>>
     fun insert(event: Event)
@@ -12,6 +11,7 @@ interface EventRepository {
 
     fun selectBit(): Flow<List<SelectBit>>
 
+    fun selectById(id: Long): Flow<Event>
 
     //fun delete(id: Int)
 
@@ -28,3 +28,4 @@ interface EventRepository {
 //    fun insert(data: Type?, data: Type?, data: Type?)
 //    fun update(data: Type?, data: Type?, data: Type?)
 }
+

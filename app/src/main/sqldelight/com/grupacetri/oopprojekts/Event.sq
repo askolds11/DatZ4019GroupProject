@@ -34,3 +34,6 @@ SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
     FROM event
     LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
     AND eventTimeInstance.time_ended IS NULL;
+
+selectById:
+SELECT * FROM event WHERE id = ?;

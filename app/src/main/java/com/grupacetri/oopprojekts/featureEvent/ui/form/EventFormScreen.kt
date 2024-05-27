@@ -11,11 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreenEvent
 //import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -25,16 +31,18 @@ typealias EventFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 @Inject
 @Composable
 fun EventFormScreen(
-    eventFormViewModel: () -> EventFormViewModel,
+    eventFormViewModel: (SavedStateHandle) -> EventFormViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { eventFormViewModel() }
-//    viewModel.eventListFlow.collectAsStateWithLifecycle()
+    val viewModel = viewModel { eventFormViewModel(createSavedStateHandle()) }
 
-    // clear navigation
-//    LaunchedEffect(Unit) {
-//        viewModel.onEvent(FooScreenEvent.NavigateToRoute2(null))
-//    }
+    SideEffectComposable(viewModel) {
+        when(it) {
+            is EventFormScreenEvent.SideEffectEvent.NavigateUp -> {
+                navigate(NavigationRoute.NavigateUp)
+            }
+        }
+    }
 
     EventFormScreenContent(
         viewModel.state,
@@ -85,8 +93,6 @@ private fun EventFormScreenContent(
             onValueChange = {}
         )
         Spacer(modifier = Modifier.height(100.dp))
-
-
 
         Button(
             onClick = {

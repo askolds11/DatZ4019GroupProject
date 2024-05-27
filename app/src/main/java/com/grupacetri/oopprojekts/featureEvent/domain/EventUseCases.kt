@@ -91,5 +91,11 @@ class EventUseCases(
         }
     }
 
+    fun getById(id: Long): Flow<EventFormItem> {
+        return eventRepository.selectById(id).map{
+            it.toEventFormItem()
+        }
+    }
+
 
 }

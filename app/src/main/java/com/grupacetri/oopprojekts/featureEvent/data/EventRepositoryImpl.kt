@@ -31,6 +31,12 @@ class EventRepositoryImpl (
         }
     }
 
+    override fun selectById(id: Long): Flow<Event> {
+        return database.eventQueries.selectById(id).asFlow().map {
+            it.executeAsOne()
+        }
+    }
+
 
 //    override fun select(id: Long) {
 //        database.eventQueries.select(id)

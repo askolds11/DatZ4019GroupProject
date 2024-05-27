@@ -55,6 +55,14 @@ fun rememberNavigate(navController: NavController): NavigateToRoute2 {
  */
 private fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean) {
     if (canNavigate) {
+        when (route) {
+            is NavigationRoute.NavigateUp -> {
+                this.navigateUp()
+            }
+            else -> {
+                this.navigate(route)
+            }
+        }
         this.navigate(route)
     }
 }
