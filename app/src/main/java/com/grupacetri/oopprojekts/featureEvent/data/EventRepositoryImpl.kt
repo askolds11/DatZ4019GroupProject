@@ -19,6 +19,10 @@ class EventRepositoryImpl (
         database.eventQueries.insert(event)
     }
 
+    override fun update(event: Event) {
+        database.eventQueries.update(event)
+    }
+
     override fun selectStarted(): Flow<List<Event>> {
         return database.eventQueries.selectStarted().asFlow().map {
             it.executeAsList()

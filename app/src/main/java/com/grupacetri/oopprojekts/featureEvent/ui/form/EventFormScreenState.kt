@@ -12,4 +12,5 @@ class EventFormScreenState {
         "before the beginning of time", "after the end of time"))
 
     val nameValidation: MutableState<EventUseCases.EventNameError?> = mutableStateOf(null)
+    val isEditMode: MutableState<Boolean> = mutableStateOf(false)
 }

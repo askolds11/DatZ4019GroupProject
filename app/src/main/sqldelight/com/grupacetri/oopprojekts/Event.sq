@@ -12,7 +12,7 @@ insert:
     INSERT INTO event (name, comment, color, active, created, modified) VALUES ?;
 
 update:
-    UPDATE event SET (name, comment, color, active, modified) = (?) WHERE id = ?;
+    INSERT OR REPLACE INTO event (id, name, comment, color, active, created, modified) VALUES ?;
 
 selectlist:
 SELECT * FROM event;

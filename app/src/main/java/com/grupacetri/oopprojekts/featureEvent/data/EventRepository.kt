@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface EventRepository {
     fun getList(): Flow<List<Event>>
     fun insert(event: Event)
+    fun update(event: Event)
 
     fun selectStarted(): Flow<List<Event>>
 
@@ -22,7 +23,6 @@ interface EventRepository {
 
 
 
-    //fun update(id: Int, name: String, comment: String?, color: String, active: Int, modified: String)
 
 
 //    fun insert(data: Type?, data: Type?, data: Type?)

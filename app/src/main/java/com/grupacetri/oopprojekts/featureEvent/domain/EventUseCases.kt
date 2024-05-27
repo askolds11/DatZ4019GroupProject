@@ -57,6 +57,14 @@ class EventUseCases(
         return true
     }
 
+    fun update(event: EventFormItem): Boolean {
+        if (validate(event) == false) {
+            return false
+        }
+        eventRepository.update(event.toEvent())
+        return true
+    }
+
     /**
      * Name error enums.
      */

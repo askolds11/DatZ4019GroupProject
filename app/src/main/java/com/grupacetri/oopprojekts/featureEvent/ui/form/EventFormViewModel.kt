@@ -35,16 +35,12 @@ class EventFormViewModel (
     private suspend fun loadData() {
         if (eventParams.id != 0L) {
             val eventItem = eventUseCases.getById(eventParams.id).first()
-            with(eventItem) {
-                state.eventFormItem.value = state.eventFormItem.value.copy(
-                    name = name,
-                    comment = comment,
-                    color = color
-                )
-            }
-
+            state.eventFormItem.value = eventItem
         }
+        state.isEditMode.value = (eventParams.id != 0L)
     }
+
+
 //
 //    val fooListFlow: SharedFlow<Unit> = fooUseCases.getList()
 //        .map {
@@ -84,7 +80,11 @@ class EventFormViewModel (
     }
 
     private fun save() {
-        eventUseCases.insert(state.eventFormItem.value)
+        if (eventParams.id != 0L) {
+            eventUseCases.update(state.eventFormItem.value)
+        } else {
+            eventUseCases.insert(state.eventFormItem.value)
+        }
         emitSideEffect(EventFormScreenEvent.SideEffectEvent.NavigateUp)
     }
 //
