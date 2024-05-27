@@ -63,6 +63,5 @@ private fun NavController.navigate(route: NavigationRoute, canNavigate: Boolean)
                 this.navigate(route)
             }
         }
-        this.navigate(route)
     }
 }
