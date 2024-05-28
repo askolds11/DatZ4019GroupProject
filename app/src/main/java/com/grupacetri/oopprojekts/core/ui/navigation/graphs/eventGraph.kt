@@ -10,14 +10,15 @@ import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 fun NavGraphBuilder.eventGraph(
     navController: NavController
 ) {
-
     composable<EventNavigationRoute.Event> {
-        val navigate = rememberNavigate(navController)
+        val navigate = rememberNavigate(navController = navController)
+
         val eventFormScreen = getThisApplication().eventComponent.eventFormScreen
         eventFormScreen(navigate)
     }
     composable<EventNavigationRoute.EventList> {
-        val navigate = rememberNavigate(navController)
+        val navigate = rememberNavigate(navController = navController)
+
         val eventListScreen = getThisApplication().eventComponent.eventListScreen
         eventListScreen(navigate)
     }

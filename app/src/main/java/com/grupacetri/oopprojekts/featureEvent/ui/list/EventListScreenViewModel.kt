@@ -1,15 +1,14 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.list
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
 import com.grupacetri.oopprojekts.featureEvent.di.EventScope
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
-import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreenEvent
-import com.grupacetri.oopprojekts.featureFoo.di.FooScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.shareIn
 import me.tatarka.inject.annotations.Inject
 
@@ -17,28 +16,44 @@ import me.tatarka.inject.annotations.Inject
 @EventScope
 class EventListScreenViewModel(
     private val eventUseCases: EventUseCases
-    ) : ViewModel() {
-        val state = EventListScreenState()
+) : SideEffectViewModel<EventListScreenEvent.SideEffectEvent>() {
+    val state = EventListScreenState()
 
-        val eventListFlow: SharedFlow<Unit> = eventUseCases.getList()
+    private val eventListFlow: Flow<Unit> = eventUseCases.getBit()
+        .map {
+            state.eventList.clear()
+            state.eventList.addAll(it)
+            return@map //Unit
+        }
+    private val startedEventListFlow: Flow<Unit> = eventUseCases.getStarted()
             .map {
-                state.eventList.clear()
-                state.eventList.addAll(it)
+                state.startedEventList.clear()
+                state.startedEventList.addAll(it)
                 return@map //Unit
-            }.shareIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5000)
-            )
+            }
+
+    val settingsFlow: SharedFlow<Unit> = merge(eventListFlow, startedEventListFlow)
+        .shareIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000)
+        )
 
     fun onEvent(event: EventListScreenEvent) {
         // this must be exhaustive - if you delete one of the items (lines), you'll see
         // that it shows an error and won't let you compile
         when (event) {
             is EventListScreenEvent.StartTracking -> startTracking(event.id)
+            is EventListScreenEvent.StopTracking -> stopTracking(event.id)
+            is EventListScreenEvent.SideEffectEvent -> emitSideEffect(event) // Handles both create and edit event.
         }
     }
 
     private fun startTracking(id: Long) {
-        eventUseCases.start_tracking(id)
+        eventUseCases.startTracking(id)
     }
+
+    private fun stopTracking(id: Long) {
+        eventUseCases.stopTracking(id)
+    }
+
 }

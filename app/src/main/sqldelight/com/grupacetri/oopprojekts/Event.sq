@@ -12,7 +12,7 @@ insert:
     INSERT INTO event (name, comment, color, active, created, modified) VALUES ?;
 
 update:
-    UPDATE event SET (name, comment, color, active, modified) = (?) WHERE id = ?;
+    INSERT OR REPLACE INTO event (id, name, comment, color, active, created, modified) VALUES ?;
 
 selectlist:
 SELECT * FROM event;
@@ -22,3 +22,18 @@ SELECT * FROM event WHERE id = ?; --varb te vajag pēc citiem parametriem meklē
 
 delete:
 DELETE FROM event WHERE id = ?;
+
+selectStarted:
+SELECT event.*
+    FROM eventTimeInstance
+    INNER JOIN event ON eventTimeInstance.event_id = event.id
+    WHERE eventTimeInstance.time_ended IS NULL;
+
+selectBit:
+SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
+    FROM event
+    LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
+    AND eventTimeInstance.time_ended IS NULL;
+
+selectById:
+SELECT * FROM event WHERE id = ?;

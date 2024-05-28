@@ -1,12 +1,9 @@
 package com.grupacetri.oopprojekts.featureEvent.data
 
 import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.grupacetri.oopprojekts.Database
-import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.Select
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -26,6 +23,9 @@ class EventTimeInstanceRepositoryImpl (
         return database.eventTimeInstanceQueries.select().asFlow().map{
             it.executeAsList()
         }
+    }
+    override fun updateTimeEnded(eventId: Long, timeEnded: String) {
+        database.eventTimeInstanceQueries.updateTimeEnded(timeEnded, eventId)
     }
 
 

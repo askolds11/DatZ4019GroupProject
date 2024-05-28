@@ -1,37 +1,27 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.history
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
+import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
-import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
-import com.grupacetri.oopprojekts.featureEvent.domain.EventItem
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
-import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
-import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
-import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
-import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
 
 typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
@@ -52,36 +42,87 @@ fun EventHistoryScreen(
         }
     }
 
-    EventHistoryContent(
+    EventHistoryScreenContent(
         viewModel.state,
         viewModel::onEvent
     )
 }
 
 @Composable
-private fun EventHistoryContent(
+private fun EventHistoryScreenContent(
     state: EventHistoryScreenState,
-    onEvent: (EventHistoryScreenEvent) -> Unit
+    onEvent: (EventHistoryScreenEvent) -> Unit,
 ) {
 
-    LazyColumn {
-        items(state.eventHistoryList) {
-            Row(modifier = Modifier.clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(it.id)) }) {
-                Text(it.name)
-                Text(it.time_created)
-                Text(it.time_ended)
-                Spacer(modifier = Modifier.weight(1f))
-//                Button(
-//                    onClick = { onEvent(EventHistoryScreenEvent.StartTracking(it.id)) }
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Default.Done,
-//                        contentDescription = "Track"
-//                    )
-//                }
+//    LazyColumn {
+//        items(state.eventHistoryList) {
+//            Row (modifier = Modifier
+//                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToScreen999(it.id))}
+//                    .padding(horizontal = 12.dp, vertical = 8.dp)
+//                ){
+//                Text(it.name)
+//                Text(it.time_created)
+//                Text(it.time_ended)
+//                Text(it.diff.toString())
+//                Spacer(modifier = Modifier.weight(1f))
+//
+////                Button(
+////                    onClick = { onEvent(EventHistoryScreenEvent.StartTracking(it.id)) }
+////                ) {
+////                    Icon(
+////                        imageVector = Icons.Default.Done,
+////                        contentDescription = "Track"
+////                    )
+////                }
+//            }
+//        }
+//    }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        items(state.eventHistoryList) { event ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(event.id)) },
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = event.name,
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Start: ${event.time_created}"
+                        )
+                        Text(
+                            text = "End: ${event.time_ended}"
+                        )
+                        Text(
+                            text = "Duration: ${event.diff} seconds"
+                        )
+                    }
+//                    IconButton(
+//                        onClick = { onEvent(EventHistoryScreenEvent.StartTracking(event.id)) }
+//                    ) {
+//                        Icon(
+//                            imageVector = Icons.Default.Done,
+//                            contentDescription = "Track",
+//                        )
+//                    }
+                }
             }
         }
     }
+
 }
 
 //@Preview

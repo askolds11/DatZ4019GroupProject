@@ -3,7 +3,10 @@ package com.grupacetri.oopprojekts.core.ui.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class NavigationRoute
+sealed class NavigationRoute {
+    @Serializable
+    data object NavigateUp: NavigationRoute()
+}
 // list of all main navigation routes
 
 
@@ -13,11 +16,10 @@ sealed class FooNavigationRoute: NavigationRoute() {
     @Serializable
     data object Foo: FooNavigationRoute()
 }
-// later define navigation routes in graphs e.g. FooNavigationRoute
 @Serializable
 sealed class EventNavigationRoute : NavigationRoute() {
     @Serializable
-    data object Event: NavigationRoute()
+    data class Event(val id: Long): NavigationRoute()
     @Serializable
     data object EventList: NavigationRoute()
 }

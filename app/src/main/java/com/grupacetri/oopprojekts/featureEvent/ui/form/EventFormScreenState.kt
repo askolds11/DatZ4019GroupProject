@@ -8,8 +8,9 @@ import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 
 @Stable
 class EventFormScreenState {
-    val eventFormItem = mutableStateOf(EventFormItem(1L, "", null, "", true,
+    val eventFormItem = mutableStateOf(EventFormItem(1L, "", null, "", true, false,
         "before the beginning of time", "after the end of time"))
 
     val nameValidation: MutableState<EventUseCases.EventNameError?> = mutableStateOf(null)
+    val isEditMode: MutableState<Boolean> = mutableStateOf(false)
 }

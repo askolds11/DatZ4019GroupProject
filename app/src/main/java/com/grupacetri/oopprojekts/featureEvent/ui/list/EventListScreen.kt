@@ -1,39 +1,28 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
-import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
-import com.grupacetri.oopprojekts.featureEvent.domain.EventItem
-import com.grupacetri.oopprojekts.featureFoo.domain.FooItem
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenState
-import com.grupacetri.oopprojekts.featureFoo.ui.FooViewModel
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 
 typealias EventListScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
@@ -44,17 +33,23 @@ fun EventListScreen(
     @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { eventViewModel() }
-    viewModel.eventListFlow.collectAsStateWithLifecycle()
+    viewModel.settingsFlow.collectAsStateWithLifecycle()
 
-    // clear navigation
-//    LaunchedEffect(Unit) {
-//        viewModel.onEvent(EventListScreenEvent.NavigateToRoute2(null))
-//    }
+
+    SideEffectComposable(viewModel) {
+        when(it) {
+            is EventListScreenEvent.SideEffectEvent.NavigateToEventFormCreate -> {
+                navigate(EventNavigationRoute.Event(0))
+            }
+            is EventListScreenEvent.SideEffectEvent.NavigateToEventFormEdit -> {
+                navigate(EventNavigationRoute.Event(it.id))
+            }
+        }
+    }
 
     EventListContent(
         viewModel.state,
         viewModel::onEvent,
-        navigate
     )
 }
 
@@ -62,37 +57,61 @@ fun EventListScreen(
 private fun EventListContent(
     state: EventListScreenState,
     onEvent: (EventListScreenEvent) -> Unit,
-    navigate: NavigateToRoute2
 ) {
-    var nav_var by remember {
-        mutableStateOf(false)
-    }
-    if (nav_var) {
-        navigate(EventNavigationRoute.Event)
-    }
     LazyColumn {
         items(state.eventList) {
+            Row(
+                modifier = Modifier
+                    .clickable {
+                        onEvent(EventListScreenEvent.SideEffectEvent.NavigateToEventFormEdit(it.id))
+                    }
+            ) {
+                Text(it.name)
+                Spacer(modifier = Modifier.weight(1f))
+                if (it.started) {
+                    Button(
+                        onClick = { onEvent(EventListScreenEvent.StopTracking(it.id)) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Track"
+                        )
+                    }
+                }
+                else {
+                    Button(
+                        onClick = { onEvent(EventListScreenEvent.StartTracking(it.id)) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Done,
+                            contentDescription = "Track"
+                        )
+                    }
+                }
+            }
+        }
+        item{
+            Button(
+                onClick = { onEvent(EventListScreenEvent.SideEffectEvent.NavigateToEventFormCreate) }
+            ) {
+                Icon (
+                    imageVector = Icons.Default.Create,
+                    contentDescription = "Create"
+                )
+            }
+        }
+        items(state.startedEventList) {
             Row {
                 Text(it.name)
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { onEvent(EventListScreenEvent.StartTracking(it.id)) }
+                    onClick = { onEvent(EventListScreenEvent.StopTracking(it.id)) }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Done,
                         contentDescription = "Track"
                     )
                 }
-            }
-        }
-        item{
-            Button(
-                onClick = { nav_var = true }
-            ) {
-                Icon (
-                    imageVector = Icons.Default.Create,
-                    contentDescription = "Create"
-                )
             }
         }
     }
@@ -104,10 +123,10 @@ private fun ExampleContentPreview() {
     OOPProjektsTheme {
         val state = EventListScreenState()
         state.eventList.addAll(listOf(
-            EventItem(0, "Item 1", "#000000", true),
-            EventItem(1, "Random","#000000", false),
-            EventItem(2, "abbdb","#000000", true),
+//            EventItem(0, "Item 1", "#000000", true),
+//            EventItem(1, "Random","#000000", false),
+//            EventItem(2, "abbdb","#000000", true),
         ))
-        EventListContent(state = state, onEvent = { }, navigate = { })
+        EventListContent(state = state, onEvent = { },)
     }
 }

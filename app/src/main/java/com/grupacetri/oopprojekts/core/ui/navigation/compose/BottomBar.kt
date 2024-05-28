@@ -20,8 +20,8 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
-import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 

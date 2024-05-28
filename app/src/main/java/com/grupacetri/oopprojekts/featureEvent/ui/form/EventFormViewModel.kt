@@ -1,20 +1,46 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.form
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreenEvent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.launch
+import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 
 @Inject
 //@FooScope
 class EventFormViewModel (
-    private val eventUseCases: EventUseCases
-) : ViewModel() {
+    private val eventUseCases: EventUseCases,
+    @Assisted savedStateHandle: SavedStateHandle,
+) : SideEffectViewModel<EventFormScreenEvent.SideEffectEvent>() {
     val state = EventFormScreenState()
-//
-//    init {
-//        Log.d("Test", "${fooUseCases.hashCode()}")
-//    }
+
+    private val eventParams = savedStateHandle.toRoute<EventNavigationRoute.Event>()
+    init {
+//        Log.d("Test", "${eventParams.id}")
+        viewModelScope.launch {
+            loadData()
+        }
+    }
+
+    private suspend fun loadData() {
+        if (eventParams.id != 0L) {
+            val eventItem = eventUseCases.getById(eventParams.id).first()
+            state.eventFormItem.value = eventItem
+        }
+        state.isEditMode.value = (eventParams.id != 0L)
+    }
+
+
 //
 //    val fooListFlow: SharedFlow<Unit> = fooUseCases.getList()
 //        .map {
@@ -35,6 +61,7 @@ class EventFormViewModel (
             is EventFormScreenEvent.UpdateComment -> updateComment(event.newValue)
             is EventFormScreenEvent.UpdateName -> updateName(event.newValue)
             is EventFormScreenEvent.Save -> save()
+            is EventFormScreenEvent.SideEffectEvent -> emitSideEffect(event)
         }
     }
 
@@ -53,7 +80,12 @@ class EventFormViewModel (
     }
 
     private fun save() {
-        eventUseCases.insert(state.eventFormItem.value)
+        if (eventParams.id != 0L) {
+            eventUseCases.update(state.eventFormItem.value)
+        } else {
+            eventUseCases.insert(state.eventFormItem.value)
+        }
+        emitSideEffect(EventFormScreenEvent.SideEffectEvent.NavigateUp)
     }
 //
 //    private fun delete(foo: Long?) {
