@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.shareIn
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-@EventScope
 class EventHistoryScreenViewModel(
     private val eventUseCases: EventUseCases
     ) : SideEffectViewModel<EventHistoryScreenEvent.SideEffectEvent>() {
