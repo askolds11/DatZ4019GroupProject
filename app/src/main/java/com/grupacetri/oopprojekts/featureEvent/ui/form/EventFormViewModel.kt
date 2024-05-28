@@ -17,7 +17,6 @@ import me.tatarka.inject.annotations.Inject
 
 
 @Inject
-//@FooScope
 class EventFormViewModel (
     private val eventUseCases: EventUseCases,
     @Assisted savedStateHandle: SavedStateHandle,
