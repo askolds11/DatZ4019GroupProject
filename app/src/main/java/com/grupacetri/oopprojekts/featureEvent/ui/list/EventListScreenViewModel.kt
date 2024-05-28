@@ -2,7 +2,6 @@ package com.grupacetri.oopprojekts.featureEvent.ui.list
 
 import androidx.lifecycle.viewModelScope
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
-import com.grupacetri.oopprojekts.featureEvent.di.EventScope
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow

@@ -1,13 +1,11 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Assisted

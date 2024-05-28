@@ -1,8 +1,6 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
-import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.Select
-import com.grupacetri.oopprojekts.core.toLong
 
 data class EventHistoryItem(
     val id: Long,
