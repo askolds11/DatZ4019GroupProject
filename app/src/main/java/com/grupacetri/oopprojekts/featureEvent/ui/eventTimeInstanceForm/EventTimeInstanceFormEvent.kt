@@ -1,7 +1,6 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm
 
 import com.grupacetri.oopprojekts.core.ui.sideeffect.BaseSideEffectEvent
-import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
 
 sealed class EventTimeInstanceFormEvent {
     data class UpdateTimeStarted(val newValue: String) : EventTimeInstanceFormEvent()

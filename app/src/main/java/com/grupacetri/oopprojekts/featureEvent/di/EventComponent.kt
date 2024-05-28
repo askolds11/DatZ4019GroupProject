@@ -2,13 +2,13 @@ package com.grupacetri.oopprojekts.featureEvent.di
 
 import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.core.di.DatabaseComponent
-import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 import com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm.EventTimeInstanceFormScreen
+import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.history.EventHistoryScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreen
 import me.tatarka.inject.annotations.Component
