@@ -10,10 +10,16 @@ import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 fun NavGraphBuilder.historyGraph(
     navController: NavController
 ) {
-    composable<HistoryNavigationRoute.HistoryList> {
-        val navigate = rememberNavigate(navController = navController)
 
+    composable<HistoryNavigationRoute.HistoryList> {
+        val navigate = rememberNavigate(navController)
         val eventHistoryScreen = getThisApplication().eventComponent.eventHistoryScreen
         eventHistoryScreen(navigate)
+    }
+
+    composable<HistoryNavigationRoute.EventTimeInstanceForm> {
+        val navigate = rememberNavigate(navController)
+        val eventTimeInstanceForm = getThisApplication().eventComponent.eventTimeInstanceFormScreen
+        eventTimeInstanceForm(navigate)
     }
 }

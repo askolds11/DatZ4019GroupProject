@@ -18,5 +18,8 @@ insert:
 select:
     SELECT t.id, e.name, t.time_started, t.time_ended, CASE WHEN t.time_ended IS NULL THEN CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) AS INTEGER) WHEN t.time_ended IS NOT NULL THEN CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) AS INTEGER) END AS diff FROM eventTimeInstance t JOIN event e ON t.event_id = e.id ORDER BY t.time_started DESC;
 
+selectById:
+    SELECT * FROM eventTimeInstance WHERE id = ?;
+
 updateTimeEnded:
     UPDATE eventTimeInstance SET (time_ended) = (?) WHERE event_id = ?;

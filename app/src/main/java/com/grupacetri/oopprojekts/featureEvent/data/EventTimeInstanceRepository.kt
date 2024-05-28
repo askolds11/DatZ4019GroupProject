@@ -14,7 +14,7 @@ interface EventTimeInstanceRepository {
     //fun delete(id: Int)
 
 
-    //fun select(id: Int)
+    fun select(id: Long): Flow<EventTimeInstance>
 
     //fun insert(name: String, comment: String?, color: String?, active: Int?, created: String, modified: String)
 

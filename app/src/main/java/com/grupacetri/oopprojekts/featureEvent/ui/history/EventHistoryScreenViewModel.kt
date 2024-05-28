@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
 import com.grupacetri.oopprojekts.featureEvent.di.EventScope
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+import com.grupacetri.oopprojekts.featureFoo.ui.FooScreenEvent
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -31,7 +32,7 @@ class EventHistoryScreenViewModel(
         // this must be exhaustive - if you delete one of the items (lines), you'll see
         // that it shows an error and won't let you compile
         when (event) {
-            is EventHistoryScreenEvent.SideEffectEvent.NavigateToScreen999 -> emitSideEffect(event)
+            is EventHistoryScreenEvent.SideEffectEvent -> emitSideEffect(event)
         }
     }
 //

@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
-import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
+import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import me.tatarka.inject.annotations.Assisted
@@ -36,9 +36,8 @@ fun EventHistoryScreen(
 
     SideEffectComposable(viewModel) {
         when(it) {
-            is EventHistoryScreenEvent.SideEffectEvent.NavigateToScreen999 -> {
-                navigate(FooNavigationRoute.Foo)
-                it.id
+            is EventHistoryScreenEvent.SideEffectEvent.NavigateToForm -> {
+                navigate(HistoryNavigationRoute.EventTimeInstanceForm(it.id))
             }
         }
     }
@@ -88,7 +87,7 @@ private fun EventHistoryScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToScreen999(event.id)) },
+                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(event.id)) },
             ) {
                 Row(
                     modifier = Modifier

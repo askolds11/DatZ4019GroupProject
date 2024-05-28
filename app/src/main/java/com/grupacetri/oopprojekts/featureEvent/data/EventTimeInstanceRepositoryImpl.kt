@@ -29,9 +29,11 @@ class EventTimeInstanceRepositoryImpl (
     }
 
 
-//    override fun select(id: Long) {
-//        database.eventQueries.select(id)
-//    }
+    override fun select(id: Long): Flow<EventTimeInstance> {
+        return database.eventTimeInstanceQueries.selectById(id).asFlow().map{
+            it.executeAsOne()
+        }
+    }
 
 //    override fun update(name: String, comment: String?, color: String, active: Long, modified: String) {
 //        database.eventQueries.update(name, comment, color, active, modified)
