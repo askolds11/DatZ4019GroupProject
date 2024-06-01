@@ -1,6 +1,5 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
-import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository

@@ -1,6 +1,5 @@
 package com.grupacetri.oopprojekts.featureEvent.ui.form
 
-//import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

@@ -23,12 +23,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
-import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.SettingsNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.rememberCanNavigate
-import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
 
 // Add icons to top level (NavigationRoute) destinations
 private sealed class TopScreen(
@@ -37,13 +35,6 @@ private sealed class TopScreen(
     val iconActive: ImageVector,
     @StringRes val resourceId: Int
 ) {
-    data object Foo : TopScreen(
-        FooNavigationRoute.Foo,
-        Icons.Outlined.Home,
-        Icons.Filled.Home,
-        R.string.foo
-    )
-
     data object Event : TopScreen(
         EventNavigationRoute.EventList,
         Icons.Outlined.Home,
@@ -71,7 +62,6 @@ fun BottomBar(
 ) {
     val items = remember {
         listOf(
-            TopScreen.Foo,
             TopScreen.Event,
             TopScreen.History,
             TopScreen.Settings
