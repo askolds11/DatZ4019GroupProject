@@ -54,7 +54,7 @@ class EventUseCases(
 
 
     fun validateEventColor(colorHex: String): EventColorError? {
-        val regex = Regex("^#(?:[0-9a-fA-F]{3}){1,2}\$")
+        val regex = Regex("^#[0-9a-fA-F]{6}\$")
         if (colorHex.isBlank()) {
             return EventColorError.IS_EMPTY
         }
@@ -81,6 +81,7 @@ class EventUseCases(
         if (validate(event) == false) {
             return false
         }
+        stopTracking(event.id)
         eventRepository.update(event.toEvent())
         return true
     }
@@ -140,6 +141,14 @@ class EventUseCases(
     fun selectById(id: Long): Flow<EventTimeInstanceFormItem> {
         return eventTimeInstanceRepository.select(id).map {
             it.toEventTimeInstanceFormItem()
+        }
+    }
+
+    fun getInactive(): Flow<List<EventItem>> {
+        return eventRepository.selectInactive().map{
+            it.map { event ->
+                event.toEventItem()
+            }
         }
     }
 
