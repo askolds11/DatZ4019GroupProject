@@ -11,16 +11,16 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
@@ -71,13 +71,23 @@ fun BottomBar(
         tonalElevation = 0.dp,
     ) {
         // see https://developer.android.com/jetpack/compose/navigation#bottom-nav
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
+//        val navBackStackEntry by navController.currentBackStackEntryAsState()
+//        val currentDestination = navBackStackEntry?.destination
         val canNavigate by rememberCanNavigate()
-        items.forEach { screen ->
+        var selectedIndex by remember { mutableIntStateOf(0) }
+        items.forEachIndexed { index, screen ->
+//            val selected = currentDestination?.hierarchy?.any {
+//                Log.d("NavTest", "HasRoute: ${it.hasRoute(screen.route::class)} - $it")
+//                it.hasRoute(screen.route::class)
+//            } == true
+            val selected by remember(selectedIndex) {
+                derivedStateOf {
+                    selectedIndex == index
+                }
+            }
             NavigationBarItem(
                 icon = {
-                    if (currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true) {
+                    if (selected) {
                         Icon(screen.iconActive, contentDescription = null)
                     } else {
                         Icon(screen.iconInactive, contentDescription = null)
@@ -86,9 +96,10 @@ fun BottomBar(
                 label = {
                     Text(text = stringResource(screen.resourceId))
                 },
-                selected = currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true,
+                selected = selected,
                 onClick = {
                     if (canNavigate) {
+                        selectedIndex = index
                         navController.navigate(screen.route) {
                             // Pop up to the start destination of the graph to
                             // avoid building up a large stack of destinations
