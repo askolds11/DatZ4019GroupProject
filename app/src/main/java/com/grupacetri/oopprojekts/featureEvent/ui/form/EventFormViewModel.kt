@@ -55,26 +55,50 @@ class EventFormViewModel (
             is EventFormScreenEvent.UpdateColor -> updateColor(event.newValue)
             is EventFormScreenEvent.UpdateComment -> updateComment(event.newValue)
             is EventFormScreenEvent.UpdateName -> updateName(event.newValue)
+            is EventFormScreenEvent.UpdateActive -> updateActive(event.newValue)
             is EventFormScreenEvent.Save -> save()
             is EventFormScreenEvent.SideEffectEvent -> emitSideEffect(event)
+           
         }
-    }
-
-    private fun updateColor(color: String) {
-        state.eventFormItem.value = state.eventFormItem.value.copy(color = color)
-    }
-
-    private fun updateComment(comment: String) {
-        state.eventFormItem.value = state.eventFormItem.value.copy(comment = comment)
     }
 
     private fun updateName(name: String) {
         val validation = eventUseCases.validateEventName(name)
         state.eventFormItem.value = state.eventFormItem.value.copy(name = name)
         state.nameValidation.value = validation
+        checkValidations()
+    }
+
+    private fun updateComment(comment: String) {
+        state.eventFormItem.value = state.eventFormItem.value.copy(comment = comment)
+    }
+
+
+    private fun updateColor(color: String) {
+        val validation = eventUseCases.validateEventColor(color)
+        state.eventFormItem.value = state.eventFormItem.value.copy(color = color)
+        state.colorValidation.value = validation
+        checkValidations()
+    }
+
+    private fun updateActive(active: Boolean) {
+        state.eventFormItem.value = state.eventFormItem.value.copy(active = active)
+    }
+
+    private fun checkValidations() {
+        if (state.nameValidation.value != null || state.colorValidation.value != null) {
+            state.saveEnabled.value = false
+        } else {
+            state.saveEnabled.value = true
+        }
     }
 
     private fun save() {
+        if (!eventUseCases.validate(state.eventFormItem.value)) {
+            state.nameValidation.value = eventUseCases.validateEventName(state.eventFormItem.value.name)
+            state.colorValidation.value = eventUseCases.validateEventColor(state.eventFormItem.value.color)
+            return
+        }
         if (eventParams.id != 0L) {
             eventUseCases.update(state.eventFormItem.value)
         } else {

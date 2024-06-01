@@ -1,5 +1,6 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
+import com.grupacetri.oopprojekts.Event
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
@@ -27,6 +28,10 @@ class EventUseCases(
         if (validateEventName(event.name) != null) {
             return false
         }
+        if (validateEventColor(event.color) != null) {
+            return false
+        }
+
         return true
     }
 
@@ -43,6 +48,21 @@ class EventUseCases(
         if (name.trim().length > 100) {
             return EventNameError.TOO_LONG
         }
+        return null
+    }
+
+
+
+    fun validateEventColor(colorHex: String): EventColorError? {
+        val regex = Regex("^#(?:[0-9a-fA-F]{3}){1,2}\$")
+        if (colorHex.isBlank()) {
+            return EventColorError.IS_EMPTY
+        }
+
+        if (!regex.matches(colorHex.trim())) {
+            return EventColorError.INVALID
+        }
+
         return null
     }
 
@@ -71,6 +91,11 @@ class EventUseCases(
     enum class EventNameError {
         IS_EMPTY,
         TOO_LONG,
+    }
+
+    enum class EventColorError {
+        IS_EMPTY,
+        INVALID
     }
 
     fun startTracking(eventId: Long) {

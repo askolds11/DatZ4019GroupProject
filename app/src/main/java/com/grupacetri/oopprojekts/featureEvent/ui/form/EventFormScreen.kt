@@ -2,14 +2,17 @@ package com.grupacetri.oopprojekts.featureEvent.ui.form
 
 //import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
@@ -68,7 +71,7 @@ private fun EventFormScreenContent(
                 onEvent(EventFormScreenEvent.UpdateName(it))
             },
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.weight(1f))
         EventFormTextField(
             label = "Comment",
             value = state.eventFormItem.value.comment ?: "",
@@ -76,26 +79,38 @@ private fun EventFormScreenContent(
                 onEvent(EventFormScreenEvent.UpdateComment(it))
             }
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.weight(1f))
         EventFormTextField(
             label = "Color",
+            error = when(state.colorValidation.value) {
+                EventUseCases.EventColorError.IS_EMPTY -> "Color cannot be empty."
+                EventUseCases.EventColorError.INVALID -> "Color is an invalid hexcode."
+                null -> null
+            },
             value = state.eventFormItem.value.color,
             onValueChange = {
                 onEvent(EventFormScreenEvent.UpdateColor(it))
             }
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        EventFormTextField(
-            label = "Category",
-            value = "Category",
-            onValueChange = {}
-        )
-        Spacer(modifier = Modifier.height(100.dp))
+        Spacer(modifier = Modifier.weight(1f))
 
+        Row (verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = state.eventFormItem.value.active,
+                onCheckedChange = {
+                    onEvent(EventFormScreenEvent.UpdateActive(it))
+                }
+            )
+            Text(text = "Active")
+        }
+
+
+        Spacer(modifier = Modifier.weight(2f))
         Button(
             onClick = {
                 onEvent(EventFormScreenEvent.Save)
             },
+            enabled = state.saveEnabled.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(30.dp, 20.dp)
