@@ -5,7 +5,5 @@ import com.grupacetri.oopprojekts.featureSettings.domain.AllSettings
 
 sealed class SettingsScreenEvent {
     data class SetSettingValue (val setting: AllSettings): SettingsScreenEvent()
-    sealed class SideEffectEvent: BaseSideEffectEvent, SettingsScreenEvent() {
-        data object NavigateToScreen999: SideEffectEvent()
-    }
+    sealed class SideEffectEvent: BaseSideEffectEvent, SettingsScreenEvent()
 }

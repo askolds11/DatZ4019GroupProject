@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import com.grupacetri.oopprojekts.core.getThisApplication
 import com.grupacetri.oopprojekts.core.ui.navigation.SettingsNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.rememberNavigate
-import com.grupacetri.oopprojekts.featureSettings.ui.mainScreen.SettingsScreen
 
 fun NavGraphBuilder.settingsGraph(
     navController: NavController

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">OOP Projekts</string>
-    <string name="foo">Foo LV</string>
     <string name="settings">Iestatījumi</string>
     <string name="theme">Izskats</string>
     <string name="dark">Tumšs</string>

@@ -26,7 +26,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
 import com.grupacetri.oopprojekts.core.ui.CustomAlertDialog
-import com.grupacetri.oopprojekts.core.ui.navigation.FooNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.featureSettings.domain.AllSettings
@@ -45,11 +44,6 @@ fun SettingsScreen(
     viewModel.settingsFlow.collectAsStateWithLifecycle()
 
     SideEffectComposable(viewModel) {
-        when(it) {
-            SettingsScreenEvent.SideEffectEvent.NavigateToScreen999 -> {
-                navigate(FooNavigationRoute.Foo)
-            }
-        }
     }
 
     SettingsContent(

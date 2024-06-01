@@ -17,7 +17,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
-//import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 

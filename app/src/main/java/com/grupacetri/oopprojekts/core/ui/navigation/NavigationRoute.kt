@@ -12,11 +12,6 @@ sealed class NavigationRoute {
 
 // for each section (bottom app bar item) define a new NavigationRoute sealed class
 @Serializable
-sealed class FooNavigationRoute: NavigationRoute() {
-    @Serializable
-    data object Foo: FooNavigationRoute()
-}
-@Serializable
 sealed class EventNavigationRoute : NavigationRoute() {
     @Serializable
     data class Event(val id: Long): NavigationRoute()
