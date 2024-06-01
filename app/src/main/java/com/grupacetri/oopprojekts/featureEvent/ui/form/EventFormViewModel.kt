@@ -71,6 +71,9 @@ class EventFormViewModel (
 
     private fun updateComment(comment: String) {
         state.eventFormItem.value = state.eventFormItem.value.copy(comment = comment)
+        if (eventParams.id != 0L) {
+            checkValidations()
+        }
     }
 
 
@@ -83,6 +86,9 @@ class EventFormViewModel (
 
     private fun updateActive(active: Boolean) {
         state.eventFormItem.value = state.eventFormItem.value.copy(active = active)
+        if (eventParams.id != 0L) {
+            checkValidations()
+        }
     }
 
     private fun checkValidations() {

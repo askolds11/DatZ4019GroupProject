@@ -14,6 +14,8 @@ interface EventRepository {
 
     fun selectById(id: Long): Flow<Event>
 
+    fun selectInactive(): Flow<List<Event>>
+
     //fun delete(id: Int)
 
 

@@ -7,4 +7,6 @@ class EventListScreenState {
     val eventList = mutableStateListOf<EventItem>()
 
     val startedEventList = mutableStateListOf<EventItem>()
+
+    val inactiveEventList = mutableStateListOf<EventItem>()
 }

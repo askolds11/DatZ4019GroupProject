@@ -41,6 +41,12 @@ class EventRepositoryImpl (
         }
     }
 
+    override fun selectInactive(): Flow<List<Event>> {
+        return database.eventQueries.selectInactive().asFlow().map {
+            it.executeAsList()
+        }
+    }
+
 
 //    override fun select(id: Long) {
 //        database.eventQueries.select(id)

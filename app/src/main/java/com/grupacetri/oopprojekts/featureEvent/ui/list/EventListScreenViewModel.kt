@@ -30,7 +30,14 @@ class EventListScreenViewModel(
                 return@map //Unit
             }
 
-    val settingsFlow: SharedFlow<Unit> = merge(eventListFlow, startedEventListFlow)
+    private val inactiveEventListFlow: Flow<Unit> = eventUseCases.getInactive()
+        .map {
+            state.inactiveEventList.clear()
+            state.inactiveEventList.addAll(it)
+            return@map //Unit
+        }
+
+    val settingsFlow: SharedFlow<Unit> = merge(eventListFlow, startedEventListFlow, inactiveEventListFlow)
         .shareIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000)

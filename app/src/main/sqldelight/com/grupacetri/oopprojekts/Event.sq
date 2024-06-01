@@ -27,13 +27,18 @@ selectStarted:
 SELECT event.*
     FROM eventTimeInstance
     INNER JOIN event ON eventTimeInstance.event_id = event.id
-    WHERE eventTimeInstance.time_ended IS NULL;
+    WHERE eventTimeInstance.time_ended IS NULL
+    AND event.active != 0;
 
 selectBit:
 SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
     FROM event
     LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
-    AND eventTimeInstance.time_ended IS NULL;
+    AND eventTimeInstance.time_ended IS NULL
+    WHERE event.active != 0;
 
 selectById:
 SELECT * FROM event WHERE id = ?;
+
+selectInactive:
+SELECT * FROM event WHERE active = 0;
