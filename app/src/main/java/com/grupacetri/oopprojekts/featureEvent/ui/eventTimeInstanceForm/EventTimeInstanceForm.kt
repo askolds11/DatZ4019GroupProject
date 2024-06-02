@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +17,11 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
+import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
+import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
+import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
+//import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
@@ -29,30 +34,36 @@ fun EventTimeInstanceFormScreen(
     @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { eventTimeInstanceFormViewModel(createSavedStateHandle()) }
-//    viewModel.eventListFlow.collectAsStateWithLifecycle()
 
-    // clear navigation
-//    LaunchedEffect(Unit) {
-//        viewModel.onEvent(FooScreenEvent.NavigateToRoute(null))
-//    }
+    SideEffectComposable(viewModel) {
+        when(it) {
+            is EventTimeInstanceFormEvent.SideEffectEvent.NavigateBack -> {
+                navigate(NavigationRoute.NavigateUp)
+            }
+        }
+    }
 
     EventTimeInstanceFormScreenContent(
         viewModel.state,
-        viewModel::onEvent,
-        navigate
+        viewModel::onEvent
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EventTimeInstanceFormScreenContent(
     state: EventTimeInstanceFormScreenState,
-    onEvent: (EventTimeInstanceFormEvent) -> Unit,
-    navigate: NavigateToRoute2
+    onEvent: (EventTimeInstanceFormEvent) -> Unit
 ) {
     Column{
         EventTimeInstanceFormTextField(
             label = "Start time",
-            value = state.eventFormItem.value.time_created,
+            error = when(state.timeStartedValidation.value) {
+                EventUseCases.EventTimeError.IS_EMPTY -> "Time cannot be empty."
+                EventUseCases.EventTimeError.NOT_DATETIME -> "Datetime should match the datetime format."
+                null -> null
+            },
+            value = state.eventTimeInstanceFormItem.value.timeStarted,
             onValueChange = {
                 onEvent(EventTimeInstanceFormEvent.UpdateTimeStarted(it))
             },
@@ -60,7 +71,12 @@ private fun EventTimeInstanceFormScreenContent(
         Spacer(modifier = Modifier.height(10.dp))
         EventTimeInstanceFormTextField(
             label = "End time",
-            value = state.eventFormItem.value.time_ended,
+            error = when(state.timeEndedValidation.value) {
+                EventUseCases.EventTimeError.IS_EMPTY -> "Time cannot be empty."
+                EventUseCases.EventTimeError.NOT_DATETIME -> "Datetime should match the datetime format."
+                null -> null
+            },
+            value = state.eventTimeInstanceFormItem.value.timeEnded?: "",
             onValueChange = {
                 onEvent(EventTimeInstanceFormEvent.UpdateTimeEnded(it))
             }
@@ -72,6 +88,7 @@ private fun EventTimeInstanceFormScreenContent(
             onClick = {
                 onEvent(EventTimeInstanceFormEvent.Save)
             },
+            enabled = state.saveEnabled.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(30.dp, 20.dp)
@@ -113,6 +130,6 @@ private fun EventTimeInstanceFormTextField(
 private fun EventFormExampleContentPreview() {
     OOPProjektsTheme {
         val state = EventTimeInstanceFormScreenState()
-        EventTimeInstanceFormScreenContent(state = state, onEvent = {}, navigate = {})
+        EventTimeInstanceFormScreenContent(state = state, onEvent = {})
     }
 }

@@ -8,6 +8,8 @@ interface EventTimeInstanceRepository {
 //    fun getList(): Flow<List<Event>>
     fun insert(eventTimeInstance: EventTimeInstance)
 
+    fun update(eventTimeInstance: EventTimeInstance)
+
     fun getList(): Flow<List<Select>>
     fun updateTimeEnded(eventId: Long, timeEnded: String)
 

@@ -10,7 +10,7 @@ sealed class EventTimeInstanceFormEvent {
     data object Save : EventTimeInstanceFormEvent()
 
     sealed class SideEffectEvent: BaseSideEffectEvent, EventTimeInstanceFormEvent() {
-        data object NavigateToScreen999: EventTimeInstanceFormEvent()
+        data object NavigateBack: SideEffectEvent()
     }
 
 }

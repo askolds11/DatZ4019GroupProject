@@ -9,7 +9,10 @@ import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
 @Stable
 class EventTimeInstanceFormScreenState {
 
-    val eventFormItem = mutableStateOf(EventTimeInstanceFormItem(1L,"", ""))
+    val eventTimeInstanceFormItem = mutableStateOf(EventTimeInstanceFormItem(1L,0, "", "", "", ""))
 
-    val nameValidation: MutableState<EventUseCases.EventNameError?> = mutableStateOf(null)
+    val timeStartedValidation: MutableState<EventUseCases.EventTimeError?> = mutableStateOf(null)
+    val timeEndedValidation: MutableState<EventUseCases.EventTimeError?> = mutableStateOf(null)
+
+    val saveEnabled = mutableStateOf(false)
 }
