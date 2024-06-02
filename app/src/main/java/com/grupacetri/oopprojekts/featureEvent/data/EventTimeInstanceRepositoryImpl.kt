@@ -19,8 +19,8 @@ class EventTimeInstanceRepositoryImpl (
         database.eventTimeInstanceQueries.insert(eventTimeInstance)
     }
 
-    override fun getList(): Flow<List<Select>> { //return type is Unit
-        return database.eventTimeInstanceQueries.select().asFlow().map{
+    override fun getList(filterTimeStarted:String, filterTimeEnded:String): Flow<List<Select>> { //return type is Unit
+        return database.eventTimeInstanceQueries.select(filterTimeStarted, filterTimeEnded).asFlow().map{
             it.executeAsList()
         }
     }

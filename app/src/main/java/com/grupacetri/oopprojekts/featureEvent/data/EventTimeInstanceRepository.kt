@@ -10,7 +10,7 @@ interface EventTimeInstanceRepository {
 
     fun update(eventTimeInstance: EventTimeInstance)
 
-    fun getList(): Flow<List<Select>>
+    fun getList(filterTimeStarted:String, filterTimeEnded:String): Flow<List<Select>>
     fun updateTimeEnded(eventId: Long, timeEnded: String)
 
     //fun delete(id: Int)

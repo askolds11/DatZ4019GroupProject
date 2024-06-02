@@ -1,16 +1,17 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
-import com.grupacetri.oopprojekts.Select
+import kotlinx.datetime.Instant
+import kotlin.time.Duration
 
 data class EventHistoryItem(
     val id: Long,
     val name: String,
-    val time_created: String,
-    val time_ended: String,
-    val diff: Long
+    val timeCreated: Instant,
+    val timeEnded: Instant?,
+    val diff: Duration
 )
 
-fun Select.toEventHistoryItem(): EventHistoryItem {
-    return EventHistoryItem(this.id, this.name, this.time_started, this.time_ended ?: "", this.diff)
-}
-
+//fun Select.toEventHistoryItem(): EventHistoryItem {
+//    return EventHistoryItem(this.id, this.name, this.time_started, this.time_ended ?: "", this.diff)
+//}
+//

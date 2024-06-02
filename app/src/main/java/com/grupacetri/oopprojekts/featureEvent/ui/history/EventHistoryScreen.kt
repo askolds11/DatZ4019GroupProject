@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -82,12 +84,31 @@ private fun EventHistoryScreenContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        item{
+            Row (verticalAlignment = Alignment.CenterVertically){
+                Spacer(modifier = Modifier.weight(1f))
+                Button(onClick = { onEvent(EventHistoryScreenEvent.PreviousDay) }) {
+                    Text("-")
+                }
+                Text(state.date.value.date.toString())
+                Button(onClick = { onEvent(EventHistoryScreenEvent.NextDay) }) {
+                    Text("+")
+                }
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
         items(state.eventHistoryList) { event ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(event.id)) },
+                    .clickable {
+                        onEvent(
+                            EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(
+                                event.id
+                            )
+                        )
+                    },
             ) {
                 Row(
                     modifier = Modifier
@@ -101,13 +122,13 @@ private fun EventHistoryScreenContent(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Start: ${event.time_created}"
+                            text = "Start: ${event.timeCreated}"
                         )
                         Text(
-                            text = "End: ${event.time_ended}"
+                            text = "End: ${event.timeEnded}"
                         )
                         Text(
-                            text = "Duration: ${event.diff} seconds"
+                            text = "Duration: ${event.diff}"
                         )
                     }
 //                    IconButton(

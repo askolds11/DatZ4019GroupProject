@@ -11,6 +11,7 @@ import com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm.EventTim
 import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.history.EventHistoryScreen
 import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreen
+import com.grupacetri.oopprojekts.featureSettings.di.SettingsComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import me.tatarka.inject.annotations.Scope
@@ -22,7 +23,8 @@ annotation class EventScope
 @Component
 @EventScope
 abstract class EventComponent(
-    @Component val databaseComponent: DatabaseComponent
+    @Component val databaseComponent: DatabaseComponent,
+    @Component val settingsComponent: SettingsComponent
 ) {
     @EventScope
     @Provides
