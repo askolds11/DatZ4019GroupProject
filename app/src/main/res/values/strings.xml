@@ -11,4 +11,8 @@
     <string name="choose_language">Choose language</string>
     <string name="cancel">Cancel</string>
     <string name="language">Language</string>
+    <string name="seconds">Seconds</string>
+    <string name="minutes">Minutes</string>
+    <string name="time_format">Time format</string>
+    <string name="izv_lies_form_tu">Choose format</string>
 </resources>

@@ -9,4 +9,5 @@ import com.grupacetri.oopprojekts.featureSettings.domain.AllSettings
 class SettingsScreenState {
     val theme: MutableState<AllSettings.Theme> = mutableStateOf(AllSettings.Theme())
     val language: MutableState<AllSettings.Language> = mutableStateOf(AllSettings.Language())
+    val timeDiffFormat: MutableState<AllSettings.TimeDiffFormat> = mutableStateOf(AllSettings.TimeDiffFormat())
 }

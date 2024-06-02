@@ -45,6 +45,19 @@ sealed class AllSettings(val key: SettingsKey, val category: SettingsCategory) {
             data object Latvian : LanguageValue("lv", R.string.language_lv)
         }
     }
+
+    @Serializable
+    data class TimeDiffFormat(val format: TimeDiffFormatValue = TimeDiffFormatValue.Seconds) :
+        AllSettings(SettingsKey.TIME_DIFF_FORMAT, SettingsCategory.MAIN) {
+        @Serializable
+        sealed class TimeDiffFormatValue(@StringRes val uiString: Int) : SettingValue {
+            @Serializable
+            data object Seconds : TimeDiffFormatValue(R.string.seconds)
+
+            @Serializable
+            data object Minutes : TimeDiffFormatValue(R.string.minutes)
+        }
+    }
 }
 
 //private val json = Json { ignoreUnknownKeys = true }
@@ -58,6 +71,7 @@ private fun <T : AllSettings> getSerializer(key: SettingsKey): KSerializer<T> {
     return when (key) {
         SettingsKey.THEME -> AllSettings.Theme.serializer()
         SettingsKey.LANGUAGE -> AllSettings.Language.serializer()
+        SettingsKey.TIME_DIFF_FORMAT -> AllSettings.TimeDiffFormat.serializer()
     } as KSerializer<T>
 }
 
@@ -66,10 +80,11 @@ private fun <T : AllSettings> getSerializer(key: SettingsKey): KSerializer<T> {
  * @param setting [AllSettings] - can use default constructor
  */
 fun getKey(setting: AllSettings): SettingsKey {
-   return when (setting) {
+    return when (setting) {
         is AllSettings.Theme -> SettingsKey.THEME
         is AllSettings.Language -> SettingsKey.LANGUAGE
-    }
+        is AllSettings.TimeDiffFormat -> SettingsKey.TIME_DIFF_FORMAT
+   }
 }
 
 /**

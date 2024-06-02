@@ -70,6 +70,12 @@ private fun SettingsContent(
                 onClick = { onEvent(SettingsScreenEvent.SetSettingValue(it)) }
             )
         }
+        item {
+            TimeDiffSetting(
+                timeDiff = state.timeDiffFormat.value,
+                onClick = { onEvent(SettingsScreenEvent.SetSettingValue(it)) }
+            )
+        }
     }
 }
 
@@ -145,6 +151,53 @@ private fun LanguageSetting(
                     RadioButton(
                         selected = language.language == it,
                         onClick = { onClick(AllSettings.Language(it)); dialogOpen = false },
+                    )
+                    Text(
+                        text = stringResource(it.uiString),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TimeDiffSetting(
+    timeDiff: AllSettings.TimeDiffFormat,
+    onClick: (AllSettings.TimeDiffFormat) -> Unit
+) {
+    var dialogOpen by remember { mutableStateOf(false) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable { dialogOpen = true }
+    ) {
+        Text(stringResource(R.string.time_format))
+        Spacer(modifier = Modifier.weight(1f))
+        Text(stringResource(timeDiff.format.uiString))
+    }
+
+    CustomAlertDialog(
+        visible = dialogOpen,
+        onDismissRequest = { dialogOpen = false },
+        title = { Text(stringResource(R.string.izv_lies_form_tu)) }
+    ) {
+        val items = listOf(
+            AllSettings.TimeDiffFormat.TimeDiffFormatValue.Seconds,
+            AllSettings.TimeDiffFormat.TimeDiffFormatValue.Minutes,
+        )
+        LazyColumn {
+            items(items) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onClick(AllSettings.TimeDiffFormat(it)); dialogOpen = false }
+                ) {
+                    RadioButton(
+                        selected = timeDiff.format == it,
+                        onClick = { onClick(AllSettings.TimeDiffFormat(it)); dialogOpen = false },
                     )
                     Text(
                         text = stringResource(it.uiString),
