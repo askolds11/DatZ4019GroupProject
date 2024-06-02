@@ -9,4 +9,8 @@
     <string name="choose_language">Izvēlēties valodu</string>
     <string name="cancel">Atcelt</string>
     <string name="language">Valoda</string>
+    <string name="seconds">Sekundes</string>
+    <string name="minutes">Minūtes</string>
+    <string name="time_format">Laika formāts</string>
+    <string name="izv_lies_form_tu">Izvēlies formātu</string>
 </resources>

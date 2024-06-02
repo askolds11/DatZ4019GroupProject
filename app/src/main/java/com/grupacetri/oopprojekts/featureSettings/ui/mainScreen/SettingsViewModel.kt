@@ -26,7 +26,11 @@ class SettingsViewModel(
         state.language.value = it
     }
 
-    val settingsFlow: SharedFlow<Unit> = merge(themeFlow, languageFlow)
+    private val timeDiffFormatFlow = getSetting(AllSettings.TimeDiffFormat(), false) {
+        state.timeDiffFormat.value = it
+    }
+
+    val settingsFlow: SharedFlow<Unit> = merge(themeFlow, languageFlow, timeDiffFormatFlow)
         .shareIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000)
