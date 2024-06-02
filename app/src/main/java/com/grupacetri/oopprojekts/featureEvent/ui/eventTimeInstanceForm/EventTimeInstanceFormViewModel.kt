@@ -28,13 +28,7 @@ class EventTimeInstanceFormViewModel (
     }
     private suspend fun loadData() {
         val eventTimeInstanceItem = eventUseCases.selectById(historyFormParams.id).first()
-        with(eventTimeInstanceItem) {
-            state.eventFormItem.value = state.eventFormItem.value.copy(
-                time_created = time_created,
-                time_ended = time_ended
-        )
-
-        }
+        state.eventTimeInstanceFormItem.value = eventTimeInstanceItem
     }
     //
 //    val fooListFlow: SharedFlow<Unit> = fooUseCases.getList()
@@ -55,19 +49,39 @@ class EventTimeInstanceFormViewModel (
             is EventTimeInstanceFormEvent.UpdateTimeStarted -> updateTimeStarted(event.newValue)
             is EventTimeInstanceFormEvent.UpdateTimeEnded -> updateTimeEnded(event.newValue)
             is EventTimeInstanceFormEvent.Save -> save()
-            EventTimeInstanceFormEvent.SideEffectEvent.NavigateToScreen999 -> TODO()
+            is EventTimeInstanceFormEvent.SideEffectEvent -> emitSideEffect(event)
         }
     }
 
-    private fun updateTimeStarted(time_created: String) {
-        state.eventFormItem.value = state.eventFormItem.value.copy(time_created = time_created)
+    private fun updateTimeStarted(timeStarted: String) {
+        val validation = eventUseCases.validateEventTime(timeStarted)
+        state.eventTimeInstanceFormItem.value = state.eventTimeInstanceFormItem.value.copy(timeStarted = timeStarted)
+        state.timeStartedValidation.value = validation
+        checkValidations()
     }
 
-    private fun updateTimeEnded(time_ended: String) {
-        state.eventFormItem.value = state.eventFormItem.value.copy(time_ended = time_ended)
+    private fun updateTimeEnded(timeEnded: String) {
+        val validation = eventUseCases.validateEventTime(timeEnded)
+        state.eventTimeInstanceFormItem.value = state.eventTimeInstanceFormItem.value.copy(timeEnded = timeEnded)
+        state.timeEndedValidation.value = validation
+        checkValidations()
     }
 
     private fun save() {
-//        eventUseCases.insert(state.eventFormItem.value)
+        if (!eventUseCases.validate(state.eventTimeInstanceFormItem.value)) {
+            state.timeStartedValidation.value = eventUseCases.validateEventTime(state.eventTimeInstanceFormItem.value.timeStarted)
+            state.timeEndedValidation.value = eventUseCases.validateEventTime(state.eventTimeInstanceFormItem.value.timeEnded)
+            return
+        }
+        eventUseCases.updateTimeInstance(state.eventTimeInstanceFormItem.value)
+        emitSideEffect(EventTimeInstanceFormEvent.SideEffectEvent.NavigateBack)
+    }
+
+    private fun checkValidations() {
+        if (state.timeStartedValidation.value != null || state.timeEndedValidation.value != null) {
+            state.saveEnabled.value = false
+        } else {
+            state.saveEnabled.value = true
+        }
     }
 }

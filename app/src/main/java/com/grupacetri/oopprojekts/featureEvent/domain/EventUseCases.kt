@@ -6,6 +6,11 @@ import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class EventUseCases(
     private val eventRepository: EventRepository,
@@ -27,10 +32,6 @@ class EventUseCases(
         if (validateEventName(event.name) != null) {
             return false
         }
-        if (validateEventColor(event.color) != null) {
-            return false
-        }
-
         return true
     }
 
@@ -65,6 +66,35 @@ class EventUseCases(
         return null
     }
 
+
+    private fun isDateStringValid(dateString: String): Boolean {
+        return try {
+            Instant.parse(dateString).toString() == dateString
+        } catch (e: IllegalArgumentException) {
+            false
+        }
+    }
+
+    fun validateEventTime(time: String?): EventTimeError? {
+        if (time.isNullOrBlank()) {
+            return EventTimeError.IS_EMPTY
+        }
+        if (!isDateStringValid(time)) {
+            return EventTimeError.NOT_DATETIME
+        }
+        return null
+    }
+
+    fun validate(event: EventTimeInstanceFormItem): Boolean {
+        if (validateEventTime(event.timeStarted) != null) {
+            return false
+        }
+        if (validateEventTime(event.timeEnded) != null) {
+            return false
+        }
+        return true
+    }
+
     /**
      * @author @Agnese Grike
      */
@@ -85,6 +115,15 @@ class EventUseCases(
         return true
     }
 
+    fun updateTimeInstance(eventTimeInstance: EventTimeInstanceFormItem): Boolean {
+//        if (validate(eventTimeInstance) == false) {
+//            return false
+//        }
+
+        eventTimeInstanceRepository.update(eventTimeInstance.toEventTimeInstance())
+        return true
+    }
+
     /**
      * Name error enums.
      */
@@ -96,6 +135,11 @@ class EventUseCases(
     enum class EventColorError {
         IS_EMPTY,
         INVALID
+    }
+
+    enum class EventTimeError {
+        IS_EMPTY,
+        NOT_DATETIME
     }
 
     fun startTracking(eventId: Long) {

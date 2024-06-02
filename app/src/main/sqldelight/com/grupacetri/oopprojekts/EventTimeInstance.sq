@@ -23,3 +23,6 @@ selectById:
 
 updateTimeEnded:
     UPDATE eventTimeInstance SET (time_ended) = (?) WHERE event_id = ?;
+
+update:
+    INSERT OR REPLACE INTO eventTimeInstance (id, event_id, time_started, time_ended, created, modified) VALUES ?;
