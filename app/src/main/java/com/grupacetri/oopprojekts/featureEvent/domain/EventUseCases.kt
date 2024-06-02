@@ -3,10 +3,18 @@ package com.grupacetri.oopprojekts.featureEvent.domain
 import com.grupacetri.oopprojekts.EventTimeInstance
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
 
 class EventUseCases(
     private val eventRepository: EventRepository,
@@ -143,13 +151,35 @@ class EventUseCases(
         eventTimeInstanceRepository.insert(eventTimeInstance)
     }
 
-    fun getHistory(): Flow<List<EventHistoryItem>> {
-        return eventTimeInstanceRepository.getList().map {
-            it.mapIndexed { _, select ->
-                select.toEventHistoryItem()
+    fun getHistory(date:LocalDateTime): Flow<List<EventHistoryItem>> {
+        val timeFlow = flow {
+            while (true) {
+                emit(Clock.System.now())
+                delay(1000)
+            }
+        }
+        val startTime = LocalTime(hour=23,minute=59,second=59)
+        val newFilterTimeStarted = date.date.atTime(startTime).toInstant(TimeZone.currentSystemDefault()).toString()
+        val endTime = LocalTime(hour=0,minute=0)
+        val newFilterTimeEnded = date.date.atTime(endTime).toInstant(TimeZone.currentSystemDefault()).toString()
+
+
+        return eventTimeInstanceRepository.getList(newFilterTimeStarted, newFilterTimeEnded).combine(timeFlow) { list, time ->
+
+            list.map {select ->
+                val timeStarted = Instant.parse(select.time_started)
+                val timeEnded = select.time_ended?.let{Instant.parse(it)}
+                EventHistoryItem(
+                    select.id,
+                    select.name,
+                    timeStarted,
+                    timeEnded,
+                    (timeEnded ?: time) - timeStarted
+                )
             }
         }
     }
+
     fun stopTracking(eventId: Long) {
         val timeEnded: String = Clock.System.now().toString()
         eventTimeInstanceRepository.updateTimeEnded(eventId, timeEnded)

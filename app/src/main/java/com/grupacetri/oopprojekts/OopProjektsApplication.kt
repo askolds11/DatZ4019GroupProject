@@ -11,6 +11,6 @@ import kotlinx.coroutines.MainScope
 
 class OopProjektsApplication: Application() {
     private val databaseComponent = DatabaseComponent::class.create(this)
-    val eventComponent = EventComponent::class.create(databaseComponent)
     val settingsComponent = SettingsComponent::class.create(databaseComponent, MainScope())
+    val eventComponent = EventComponent::class.create(databaseComponent, settingsComponent)
 }
