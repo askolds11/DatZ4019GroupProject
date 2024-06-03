@@ -122,6 +122,9 @@ class EventUseCases(
         if (validateEventName(event.name) != null) {
             return false
         }
+        if (validateEventColor(event.color) != null) {
+            return false
+        }
         return true
     }
 
