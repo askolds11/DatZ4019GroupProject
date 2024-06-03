@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class NavigationRoute {
+    // universal "go back" route
     @Serializable
     data object NavigateUp: NavigationRoute()
 }
@@ -23,7 +24,7 @@ sealed class HistoryNavigationRoute : NavigationRoute() {
     @Serializable
     data object HistoryList: NavigationRoute()
     @Serializable
-    data class EventTimeInstanceForm(val id: Long): NavigationRoute()
+    data class HistoryForm(val id: Long): NavigationRoute()
 }
 @Serializable
 sealed class SettingsNavigationRoute: NavigationRoute() {

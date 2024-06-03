@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.history
+package com.grupacetri.oopprojekts.featureHistory.ui.historyListScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,82 +16,62 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
+import com.grupacetri.oopprojekts.featureSettings.domain.AllSettings
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
+import java.util.Locale
 
-typealias EventHistoryScreen = @Composable (navigate: NavigateToRoute2) -> Unit
+typealias HistoryListScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
-fun EventHistoryScreen(
-    eventViewModel: () -> EventHistoryScreenViewModel,
+fun HistoryListScreen(
+    eventViewModel: () -> HistoryListScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { eventViewModel() }
     viewModel.eventHistoryFlow.collectAsStateWithLifecycle()
 
     SideEffectComposable(viewModel) {
-        when(it) {
-            is EventHistoryScreenEvent.SideEffectEvent.NavigateToForm -> {
-                navigate(HistoryNavigationRoute.EventTimeInstanceForm(it.id))
+        when (it) {
+            is HistoryListScreenEvent.SideEffectEvent.NavigateToForm -> {
+                navigate(HistoryNavigationRoute.HistoryForm(it.id))
             }
         }
     }
 
-    EventHistoryScreenContent(
+    HistoryListContent(
         viewModel.state,
         viewModel::onEvent
     )
 }
 
 @Composable
-private fun EventHistoryScreenContent(
-    state: EventHistoryScreenState,
-    onEvent: (EventHistoryScreenEvent) -> Unit,
+private fun HistoryListContent(
+    state: HistoryListScreenState,
+    onEvent: (HistoryListScreenEvent) -> Unit,
 ) {
-
-//    LazyColumn {
-//        items(state.eventHistoryList) {
-//            Row (modifier = Modifier
-//                    .clickable { onEvent(EventHistoryScreenEvent.SideEffectEvent.NavigateToScreen999(it.id))}
-//                    .padding(horizontal = 12.dp, vertical = 8.dp)
-//                ){
-//                Text(it.name)
-//                Text(it.time_created)
-//                Text(it.time_ended)
-//                Text(it.diff.toString())
-//                Spacer(modifier = Modifier.weight(1f))
-//
-////                Button(
-////                    onClick = { onEvent(EventHistoryScreenEvent.StartTracking(it.id)) }
-////                ) {
-////                    Icon(
-////                        imageVector = Icons.Default.Done,
-////                        contentDescription = "Track"
-////                    )
-////                }
-//            }
-//        }
-//    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        item{
-            Row (verticalAlignment = Alignment.CenterVertically){
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Spacer(modifier = Modifier.weight(1f))
-                Button(onClick = { onEvent(EventHistoryScreenEvent.PreviousDay) }) {
+                Button(onClick = { onEvent(HistoryListScreenEvent.PreviousDay) }) {
                     Text("-")
                 }
                 Text(state.date.value.date.toString())
-                Button(onClick = { onEvent(EventHistoryScreenEvent.NextDay) }) {
+                Button(onClick = { onEvent(HistoryListScreenEvent.NextDay) }) {
                     Text("+")
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -104,7 +84,7 @@ private fun EventHistoryScreenContent(
                     .padding(vertical = 8.dp)
                     .clickable {
                         onEvent(
-                            EventHistoryScreenEvent.SideEffectEvent.NavigateToForm(
+                            HistoryListScreenEvent.SideEffectEvent.NavigateToForm(
                                 event.id
                             )
                         )
@@ -122,40 +102,24 @@ private fun EventHistoryScreenContent(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Start: ${event.timeCreated}"
+                            text = "${stringResource(R.string.start_time)}: ${event.timeCreated}"
                         )
                         Text(
-                            text = "End: ${event.timeEnded}"
+                            text = "${stringResource(R.string.end_time)}: ${event.timeEnded}"
                         )
                         Text(
-                            text = "Duration: ${event.diff}"
+                            text = "${stringResource(R.string.duration)}: ${event.diff} ${
+                                stringResource(
+                                    when (state.timeDiffFormat.value.format) {
+                                        AllSettings.TimeDiffFormat.TimeDiffFormatValue.Minutes -> R.string.minutes
+                                        AllSettings.TimeDiffFormat.TimeDiffFormatValue.Seconds -> R.string.seconds
+                                    }
+                                ).lowercase(Locale.getDefault())
+                            }"
                         )
                     }
-//                    IconButton(
-//                        onClick = { onEvent(EventHistoryScreenEvent.StartTracking(event.id)) }
-//                    ) {
-//                        Icon(
-//                            imageVector = Icons.Default.Done,
-//                            contentDescription = "Track",
-//                        )
-//                    }
                 }
             }
         }
     }
-
 }
-
-//@Preview
-//@Composable
-//private fun ExampleContentPreview() {
-//    OOPProjektsTheme {
-//        val state = EventHistoryScreenState()
-//        state.eventHistoryList.addAll(listOf(
-//            EventItem(0, "Item 1", "#000000", true),
-//            EventItem(1, "Random","#000000", false),
-//            EventItem(2, "abbdb","#000000", true),
-//        ))
-//        ExampleContent(state = state, onEvent = { }, navigate = { })
-//    }
-//}

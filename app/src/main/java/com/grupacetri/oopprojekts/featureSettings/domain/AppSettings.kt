@@ -19,6 +19,7 @@ class AppSettings(
     private val settingsUseCases: SettingsUseCases,
     private val coroutineScope: CoroutineScope
 ) {
+    // individual settings
     val theme by lazy { getSetting(AllSettings.Theme()) }
     val language by lazy { getSetting(AllSettings.Language()) }
 

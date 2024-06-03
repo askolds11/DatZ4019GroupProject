@@ -1,6 +1,6 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.history
+package com.grupacetri.oopprojekts.featureHistory.ui.historyListScreen
 
-data class EventHistoryUiItem(
+data class HistoryListUiItem(
     val id: Long,
     val name: String,
     val timeCreated: String,

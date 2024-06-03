@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.list
+package com.grupacetri.oopprojekts.featureEvent.ui.eventListScreen
 
 import com.grupacetri.oopprojekts.core.ui.sideeffect.BaseSideEffectEvent
 

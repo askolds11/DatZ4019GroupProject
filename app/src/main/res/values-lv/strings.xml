@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">OOP Projekts</string>
+    <string name="event">Notikums</string>
+    <string name="history">Vēsture</string>
     <string name="settings">Iestatījumi</string>
     <string name="theme">Izskats</string>
-    <string name="dark">Tumšs</string>
-    <string name="light">Gaišs</string>
-    <string name="system">Sistēma</string>
+    <string name="theme_dark">Tumšs</string>
+    <string name="theme_light">Gaišs</string>
+    <string name="theme_system">Sistēma</string>
     <string name="language_system">📱 Sistēma</string>
     <string name="choose_language">Izvēlēties valodu</string>
     <string name="cancel">Atcelt</string>
@@ -12,5 +14,21 @@
     <string name="seconds">Sekundes</string>
     <string name="minutes">Minūtes</string>
     <string name="time_format">Laika formāts</string>
-    <string name="izv_lies_form_tu">Izvēlies formātu</string>
+    <string name="choose_format">Izvēlies formātu</string>
+    <string name="validation_error_empty">Lauks %1$s nevar būt tukšs.</string>
+    <string name="name">Nosaukums</string>
+    <string name="validation_error_too_long">Laukam %1$s jābūt īsākam par %2$d.</string>
+    <string name="color">Krāsa</string>
+    <string name="invalid_hexcode">Lauks %1$s ir nederīgs HEX kods</string>
+    <string name="comment">Komentārs</string>
+    <string name="active">Aktīvs</string>
+    <string name="save">Saglabāt</string>
+    <string name="create">Izveidot jaunu</string>
+    <string name="events_active">Aktīvie notikumi</string>
+    <string name="events_inactive">Neaktīvie notikumi</string>
+    <string name="events_started">Sāktie notikumi</string>
+    <string name="start_time">Sākuma laiks</string>
+    <string name="end_time">Beigu laiks</string>
+    <string name="invalid_datetime">Laukam %1$s jābūt derīgam laikam.</string>
+    <string name="duration">Ilgums</string>
 </resources>

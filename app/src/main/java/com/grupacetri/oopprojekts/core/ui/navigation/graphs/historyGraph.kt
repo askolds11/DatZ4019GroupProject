@@ -13,13 +13,13 @@ fun NavGraphBuilder.historyGraph(
 
     composable<HistoryNavigationRoute.HistoryList> {
         val navigate = rememberNavigate(navController)
-        val eventHistoryScreen = getThisApplication().eventComponent.eventHistoryScreen
+        val eventHistoryScreen = getThisApplication().historyComponent.historyListScreen
         eventHistoryScreen(navigate)
     }
 
-    composable<HistoryNavigationRoute.EventTimeInstanceForm> {
+    composable<HistoryNavigationRoute.HistoryForm> {
         val navigate = rememberNavigate(navController)
-        val eventTimeInstanceForm = getThisApplication().eventComponent.eventTimeInstanceFormScreen
+        val eventTimeInstanceForm = getThisApplication().historyComponent.historyFormScreen
         eventTimeInstanceForm(navigate)
     }
 }

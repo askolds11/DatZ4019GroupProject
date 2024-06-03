@@ -9,10 +9,10 @@ CREATE TABLE eventTimeInstance (
         REFERENCES event (id)
 );
 
-insert:
+historyInsert:
      INSERT INTO eventTimeInstance (event_id, time_started, time_ended, created, modified) VALUES ?;
 
-select:
+historySelectByDate:
     SELECT t.id, e.name, t.time_started, t.time_ended
     FROM eventTimeInstance t
     JOIN event e ON t.event_id = e.id
@@ -21,50 +21,11 @@ select:
         AND (time_ended IS NULL OR julianday(time_ended) >= julianday(:timeEnded))
     ORDER BY t.time_ended IS NULL DESC, t.time_ended DESC;
 
--- select:
---     SELECT t.id, e.name, strftime('%H:%M:%S %d.%m.%Y', t.time_started) AS time_started, strftime('%H:%M:%S %d.%m.%Y', t.time_ended) AS time_ended, CASE WHEN t.time_ended IS NULL THEN CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) AS INTEGER) WHEN t.time_ended IS NOT NULL THEN CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) AS INTEGER) END AS diff FROM eventTimeInstance t JOIN event e ON t.event_id = e.id ORDER BY t.time_started DESC;
-
--- select:
---     SELECT
---         t.id,
---         e.name,
---         strftime('%H:%M:%S %d.%m.%Y', t.time_started) AS time_started,
---         CASE
---             WHEN t.time_ended IS NOT NULL THEN strftime('%H:%M:%S %d.%m.%Y', t.time_ended)
---             ELSE ''
---         END AS time_ended,
---         CASE
---             WHEN t.time_ended IS NULL THEN
---                 printf(
---                     '%d:%02d:%02d:%02d',
---                     CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) / 86400 AS INTEGER),
---                     CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 86400 / 3600 AS INTEGER),
---                     CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 3600 / 60 AS INTEGER),
---                     CAST(ROUND((julianday(CURRENT_TIMESTAMP) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 60 AS INTEGER)
---                 )
---             WHEN t.time_ended IS NOT NULL THEN
---                 printf(
---                     '%d:%02d:%02d:%02d',
---                     CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) / 86400 AS INTEGER),
---                     CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 86400 / 3600 AS INTEGER),
---                     CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 3600 / 60 AS INTEGER),
---                     CAST(ROUND((julianday(t.time_ended) - julianday(t.time_started)) * 24 * 60 * 60, 0) % 60 AS INTEGER)
---                 )
---         END AS diff
---     FROM
---         eventTimeInstance t
---     JOIN
---         event e
---     ON
---         t.event_id = e.id
---     ORDER BY
---         t.time_started DESC;
-
-selectById:
+historySelectById:
     SELECT * FROM eventTimeInstance WHERE id = ?;
 
-updateTimeEnded:
+historyUpdateTimeEnded:
     UPDATE eventTimeInstance SET (time_ended) = (?) WHERE event_id = ? AND time_ended IS NULL;
 
-update:
+historyUpdate:
     INSERT OR REPLACE INTO eventTimeInstance (id, event_id, time_started, time_ended, created, modified) VALUES ?;

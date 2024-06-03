@@ -37,10 +37,10 @@ typealias SettingsScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 @Inject
 @Composable
 fun SettingsScreen(
-    settingsViewModel: () -> SettingsViewModel,
+    settingsScreenViewModel: () -> SettingsScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { settingsViewModel() }
+    val viewModel = viewModel { settingsScreenViewModel() }
     viewModel.settingsFlow.collectAsStateWithLifecycle()
 
     SideEffectComposable(viewModel) {
@@ -91,9 +91,9 @@ private fun ThemeSetting(
     )
     val items = remember {
         listOf(
-            ThemeItem(AllSettings.Theme.ThemeValue.DARK, R.string.dark),
-            ThemeItem(AllSettings.Theme.ThemeValue.LIGHT, R.string.light),
-            ThemeItem(AllSettings.Theme.ThemeValue.SYSTEM, R.string.system)
+            ThemeItem(AllSettings.Theme.ThemeValue.DARK, R.string.theme_dark),
+            ThemeItem(AllSettings.Theme.ThemeValue.LIGHT, R.string.theme_light),
+            ThemeItem(AllSettings.Theme.ThemeValue.SYSTEM, R.string.theme_system)
         )
     }
 
@@ -181,7 +181,7 @@ private fun TimeDiffSetting(
     CustomAlertDialog(
         visible = dialogOpen,
         onDismissRequest = { dialogOpen = false },
-        title = { Text(stringResource(R.string.izv_lies_form_tu)) }
+        title = { Text(stringResource(R.string.choose_format)) }
     ) {
         val items = listOf(
             AllSettings.TimeDiffFormat.TimeDiffFormatValue.Seconds,
