@@ -14,6 +14,10 @@ class EventTimeInstanceRepositoryImpl (
         database.eventTimeInstanceQueries.historyInsert(eventTimeInstance)
     }
 
+    override fun delete(id: Long) {
+        database.eventTimeInstanceQueries.historyDelete(id)
+    }
+
     override fun getList(filterTimeStarted:String, filterTimeEnded:String): Flow<List<HistorySelectByDate>> {
         return database.eventTimeInstanceQueries.historySelectByDate(filterTimeStarted, filterTimeEnded).asFlow().map{
             it.executeAsList()

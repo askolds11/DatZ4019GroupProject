@@ -7,6 +7,7 @@ sealed class EventFormScreenEvent {
     data class UpdateComment(val newValue: String) : EventFormScreenEvent()
     data class UpdateColor(val newValue: String) : EventFormScreenEvent()
     data class UpdateActive(val newValue: Boolean) : EventFormScreenEvent()
+    data object Delete : EventFormScreenEvent()
     data object Save : EventFormScreenEvent()
     sealed class SideEffectEvent : BaseSideEffectEvent, EventFormScreenEvent() {
         data object NavigateUp : SideEffectEvent()

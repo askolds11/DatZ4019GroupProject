@@ -32,6 +32,14 @@ class HistoryUseCases(
     }
 
     /**
+     * Delete eventTimeInstance from database
+     * @param id Id of item to be deleted
+     */
+    fun delete(id: Long) {
+        eventTimeInstanceRepository.delete(id)
+    }
+
+    /**
      * Get flow of [HistoryItem] which covers [date]
      * @param date Day to get history for
      */

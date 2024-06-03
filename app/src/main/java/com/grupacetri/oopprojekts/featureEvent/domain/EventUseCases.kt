@@ -40,6 +40,14 @@ class EventUseCases(
     }
 
     /**
+     * Delete event and it's related eventTimeInstance's from database
+     * @param id Id of item to be deleted
+     */
+    fun delete(id: Long) {
+        eventRepository.delete(id)
+    }
+
+    /**
      * Creates a new [EventTimeInstance] with the passed [eventId]
      */
     fun startTracking(eventId: Long) {
