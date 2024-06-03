@@ -4,13 +4,10 @@ import com.grupacetri.oopprojekts.Database
 import com.grupacetri.oopprojekts.core.di.DatabaseComponent
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepository
 import com.grupacetri.oopprojekts.featureEvent.data.EventRepositoryImpl
-import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepository
-import com.grupacetri.oopprojekts.featureEvent.data.EventTimeInstanceRepositoryImpl
 import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
-import com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm.EventTimeInstanceFormScreen
-import com.grupacetri.oopprojekts.featureEvent.ui.form.EventFormScreen
-import com.grupacetri.oopprojekts.featureEvent.ui.history.EventHistoryScreen
-import com.grupacetri.oopprojekts.featureEvent.ui.list.EventListScreen
+import com.grupacetri.oopprojekts.featureEvent.ui.eventFormScreen.EventFormScreen
+import com.grupacetri.oopprojekts.featureEvent.ui.eventListScreen.EventListScreen
+import com.grupacetri.oopprojekts.featureHistory.data.EventTimeInstanceRepository
 import com.grupacetri.oopprojekts.featureSettings.di.SettingsComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -24,15 +21,12 @@ annotation class EventScope
 @EventScope
 abstract class EventComponent(
     @Component val databaseComponent: DatabaseComponent,
-    @Component val settingsComponent: SettingsComponent
+    @Component val settingsComponent: SettingsComponent,
+    @get:Provides protected val eventTimeInstanceRepository: EventTimeInstanceRepository,
 ) {
     @EventScope
     @Provides
     fun provideEventRepository(database: Database): EventRepository = EventRepositoryImpl(database)
-
-    @EventScope
-    @Provides
-    fun provideEventTimeInstanceRepository(database: Database): EventTimeInstanceRepository = EventTimeInstanceRepositoryImpl(database)
 
     @EventScope
     @Provides
@@ -41,8 +35,4 @@ abstract class EventComponent(
     abstract val eventFormScreen: EventFormScreen
 
     abstract val eventListScreen: EventListScreen
-
-    abstract val eventHistoryScreen: EventHistoryScreen
-
-    abstract val eventTimeInstanceFormScreen: EventTimeInstanceFormScreen
 }

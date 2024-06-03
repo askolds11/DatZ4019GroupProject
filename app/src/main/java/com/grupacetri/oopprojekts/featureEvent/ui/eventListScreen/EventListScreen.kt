@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.list
+package com.grupacetri.oopprojekts.featureEvent.ui.eventListScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,10 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.collectAsStateWithLifecycle
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
@@ -38,7 +40,7 @@ fun EventListScreen(
     @Assisted navigate: NavigateToRoute2
 ) {
     val viewModel = viewModel { eventViewModel() }
-    viewModel.settingsFlow.collectAsStateWithLifecycle()
+    viewModel.eventListUiFlow.collectAsStateWithLifecycle()
 
 
     SideEffectComposable(viewModel) {
@@ -70,13 +72,13 @@ private fun EventListContent(
                 onClick = { onEvent(EventListScreenEvent.SideEffectEvent.NavigateToEventFormCreate) }
             ) {
                 Text(
-                    text = "Create"
+                    text = stringResource(R.string.create)
                 )
             }
         }
         item {
             Text(
-                text = "All active"
+                text = stringResource(R.string.events_active)
             )
         }
         items(state.eventList) {
@@ -95,7 +97,7 @@ private fun EventListContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "Track"
+                            contentDescription = null
                         )
                     }
                 } else {
@@ -104,7 +106,7 @@ private fun EventListContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Done,
-                            contentDescription = "Track"
+                            contentDescription = null
                         )
                     }
                 }
@@ -113,7 +115,7 @@ private fun EventListContent(
         item {
             Spacer(modifier = Modifier.height(50.dp))
             Text(
-                text = "Started"
+                text = stringResource(R.string.events_started)
             )
         }
         items(state.startedEventList) {
@@ -131,7 +133,7 @@ private fun EventListContent(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "Track"
+                        contentDescription = null
                     )
                 }
             }
@@ -140,7 +142,7 @@ private fun EventListContent(
         item {
             Spacer(modifier = Modifier.height(50.dp))
             Text(
-                text = "Inactive"
+                text = stringResource(R.string.events_inactive)
             )
         }
         items(state.inactiveEventList) {

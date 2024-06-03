@@ -8,37 +8,28 @@ CREATE TABLE event (
     modified TEXT NOT NULL
 );
 
-insert:
+eventInsert:
     INSERT INTO event (name, comment, color, active, created, modified) VALUES ?;
 
-update:
+eventUpdate:
     INSERT OR REPLACE INTO event (id, name, comment, color, active, created, modified) VALUES ?;
 
-selectlist:
-SELECT * FROM event;
+eventSelectById:
+SELECT * FROM event WHERE id = ?;
 
-select:
-SELECT * FROM event WHERE id = ?; --varb te vajag pēc citiem parametriem meklēt (piem. created/modified)
-
-delete:
-DELETE FROM event WHERE id = ?;
-
-selectStarted:
+eventSelectStarted:
 SELECT event.*
     FROM eventTimeInstance
     INNER JOIN event ON eventTimeInstance.event_id = event.id
     WHERE eventTimeInstance.time_ended IS NULL
     AND event.active != 0;
 
-selectBit:
+eventSelectWithBit:
 SELECT event.*, eventTimeInstance.id IS NOT NULL AS bit
     FROM event
     LEFT JOIN eventTimeInstance ON event.id = eventTimeInstance.event_id
     AND eventTimeInstance.time_ended IS NULL
     WHERE event.active != 0;
 
-selectById:
-SELECT * FROM event WHERE id = ?;
-
-selectInactive:
+eventSelectInactive:
 SELECT * FROM event WHERE active = 0;

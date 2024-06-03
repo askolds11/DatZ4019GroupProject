@@ -34,7 +34,8 @@ sealed class AllSettings(val key: SettingsKey, val category: SettingsCategory) {
     data class Language(val language: LanguageValue = LanguageValue.System) :
         AllSettings(SettingsKey.LANGUAGE, SettingsCategory.MAIN) {
         @Serializable
-        sealed class LanguageValue(val languageString: String, @StringRes val uiString: Int) : SettingValue {
+        sealed class LanguageValue(val languageString: String, @StringRes val uiString: Int) :
+            SettingValue {
             @Serializable
             data object System : LanguageValue("system", R.string.language_system)
 
@@ -60,8 +61,6 @@ sealed class AllSettings(val key: SettingsKey, val category: SettingsCategory) {
     }
 }
 
-//private val json = Json { ignoreUnknownKeys = true }
-
 /**
  * Gets serializer based on key
  * @param key Key of setting. Should use [getKey] for it
@@ -84,13 +83,13 @@ fun getKey(setting: AllSettings): SettingsKey {
         is AllSettings.Theme -> SettingsKey.THEME
         is AllSettings.Language -> SettingsKey.LANGUAGE
         is AllSettings.TimeDiffFormat -> SettingsKey.TIME_DIFF_FORMAT
-   }
+    }
 }
 
 /**
  * @param T setting's output type
  */
-fun <T: AllSettings> Settings.toAllSettings(): T {
+fun <T : AllSettings> Settings.toAllSettings(): T {
     return Json.decodeFromString(getSerializer(this.key), this.value_)
 }
 

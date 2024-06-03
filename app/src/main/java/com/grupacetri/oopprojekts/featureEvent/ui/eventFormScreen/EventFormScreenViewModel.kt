@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.form
+package com.grupacetri.oopprojekts.featureEvent.ui.eventFormScreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import me.tatarka.inject.annotations.Inject
 
 
 @Inject
-class EventFormViewModel (
+class EventFormScreenViewModel (
     private val eventUseCases: EventUseCases,
     @Assisted savedStateHandle: SavedStateHandle,
 ) : SideEffectViewModel<EventFormScreenEvent.SideEffectEvent>() {
@@ -21,12 +21,12 @@ class EventFormViewModel (
 
     private val eventParams = savedStateHandle.toRoute<EventNavigationRoute.Event>()
     init {
-//        Log.d("Test", "${eventParams.id}")
         viewModelScope.launch {
             loadData()
         }
     }
 
+    // if mode is edit, load data from database
     private suspend fun loadData() {
         if (eventParams.id != 0L) {
             val eventItem = eventUseCases.getById(eventParams.id).first()
@@ -35,22 +35,7 @@ class EventFormViewModel (
         state.isEditMode.value = (eventParams.id != 0L)
     }
 
-
-//
-//    val fooListFlow: SharedFlow<Unit> = fooUseCases.getList()
-//        .map {
-//            state.fooList.clear()
-//            state.fooList.addAll(it)
-//            return@map //Unit
-//        }.shareIn(
-//            viewModelScope,
-//            SharingStarted.WhileSubscribed(5000)
-//        )
-//
-//    // all screen events get handled here
     fun onEvent(event: EventFormScreenEvent) {
-        // this must be exhaustive - if you delete one of the items (lines), you'll see
-        // that it shows an error and won't let you compile
         when (event) {
             is EventFormScreenEvent.UpdateColor -> updateColor(event.newValue)
             is EventFormScreenEvent.UpdateComment -> updateComment(event.newValue)
@@ -76,7 +61,6 @@ class EventFormViewModel (
         }
     }
 
-
     private fun updateColor(color: String) {
         val validation = eventUseCases.validateEventColor(color)
         state.eventFormItem.value = state.eventFormItem.value.copy(color = color)
@@ -91,6 +75,7 @@ class EventFormViewModel (
         }
     }
 
+    // check if all validations are empty - if so set saveEnabled to true, otherwise false
     private fun checkValidations() {
         if (state.nameValidation.value != null || state.colorValidation.value != null) {
             state.saveEnabled.value = false
@@ -100,44 +85,20 @@ class EventFormViewModel (
     }
 
     private fun save() {
+        // if validations do not pass, recheck validations and don't save or go back
         if (!eventUseCases.validate(state.eventFormItem.value)) {
             state.nameValidation.value = eventUseCases.validateEventName(state.eventFormItem.value.name)
             state.colorValidation.value = eventUseCases.validateEventColor(state.eventFormItem.value.color)
+            checkValidations()
             return
         }
+        // if edit, update
         if (eventParams.id != 0L) {
             eventUseCases.update(state.eventFormItem.value)
+        // if create, insert
         } else {
             eventUseCases.insert(state.eventFormItem.value)
         }
         emitSideEffect(EventFormScreenEvent.SideEffectEvent.NavigateUp)
     }
-//
-//    private fun delete(foo: Long?) {
-//        if (foo != null) {
-//            fooUseCases.delete(foo)
-//        }
-//    }
-//
-//    private fun save() {
-//        val test = try {
-//            state.inputText.value.toLong()
-//        } catch (ex: NumberFormatException) {
-//            0
-//        }
-//        // insert in database
-//        fooUseCases.add(test)
-//    }
-//
-//    private fun updateText(newValue: String) {
-//        try {
-//            newValue.toLong()
-//            state.inputText.value = newValue
-//        } catch (_: NumberFormatException) {
-//        }
-//    }
-//
-//    private fun navigateToRoute(route: NavigationRoute?) {
-//        state.route.value = route
-//    }
 }

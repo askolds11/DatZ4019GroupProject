@@ -1,8 +1,8 @@
-package com.grupacetri.oopprojekts.featureEvent.domain
+package com.grupacetri.oopprojekts.featureHistory.domain
 
 import com.grupacetri.oopprojekts.EventTimeInstance
 
-data class EventTimeInstanceFormItem(
+data class HistoryFormItem(
     val id: Long,
     private val eventId: Long,
     val timeStarted: String,
@@ -15,9 +15,14 @@ data class EventTimeInstanceFormItem(
     }
 }
 
-
-
-fun EventTimeInstance.toEventTimeInstanceFormItem(): EventTimeInstanceFormItem {
-    return EventTimeInstanceFormItem(this.id, this.event_id, this.time_started, this.time_ended, this.created, this.modified)
+fun EventTimeInstance.toHistoryFormItem(): HistoryFormItem {
+    return HistoryFormItem(
+        this.id,
+        this.event_id,
+        this.time_started,
+        this.time_ended,
+        this.created,
+        this.modified
+    )
 }
 

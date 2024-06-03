@@ -13,11 +13,12 @@ import kotlinx.coroutines.flow.shareIn
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-class SettingsViewModel(
+class SettingsScreenViewModel(
     private val settingsUseCases: SettingsUseCases
 ) : SideEffectViewModel<SettingsScreenEvent.SideEffectEvent>() {
     val state = SettingsScreenState()
 
+    // individual setting flows
     private val themeFlow = getSetting(AllSettings.Theme(), false) {
         state.theme.value = it
     }
@@ -30,13 +31,12 @@ class SettingsViewModel(
         state.timeDiffFormat.value = it
     }
 
+    // combine flows for ui
     val settingsFlow: SharedFlow<Unit> = merge(themeFlow, languageFlow, timeDiffFormatFlow)
         .shareIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000)
         )
-
-
 
     fun onEvent(event: SettingsScreenEvent) {
         when (event) {
@@ -49,12 +49,13 @@ class SettingsViewModel(
         settingsUseCases.setSetting(setting)
     }
 
+    // Copied from [AppSettings]
     /**
      * @param default Default value of setting
      * @param fast If this setting should be fetched using the main thread
      * @transform What transformation to apply to the settingValue
      */
-    private inline fun<reified T: AllSettings> getSetting(
+    private inline fun <reified T : AllSettings> getSetting(
         default: T,
         fast: Boolean = false,
         crossinline transform: (setting: T) -> Unit

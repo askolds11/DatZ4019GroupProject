@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.list
+package com.grupacetri.oopprojekts.featureEvent.ui.eventListScreen
 
 import androidx.lifecycle.viewModelScope
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectViewModel
@@ -17,12 +17,15 @@ class EventListScreenViewModel(
 ) : SideEffectViewModel<EventListScreenEvent.SideEffectEvent>() {
     val state = EventListScreenState()
 
+    // Event list with boolean
     private val eventListFlow: Flow<Unit> = eventUseCases.getBit()
         .map {
             state.eventList.clear()
             state.eventList.addAll(it)
             return@map //Unit
         }
+
+    // Started event list
     private val startedEventListFlow: Flow<Unit> = eventUseCases.getStarted()
             .map {
                 state.startedEventList.clear()
@@ -30,6 +33,7 @@ class EventListScreenViewModel(
                 return@map //Unit
             }
 
+    // Inactive event list
     private val inactiveEventListFlow: Flow<Unit> = eventUseCases.getInactive()
         .map {
             state.inactiveEventList.clear()
@@ -37,15 +41,14 @@ class EventListScreenViewModel(
             return@map //Unit
         }
 
-    val settingsFlow: SharedFlow<Unit> = merge(eventListFlow, startedEventListFlow, inactiveEventListFlow)
+    // Flow that Ui needs to collect
+    val eventListUiFlow: SharedFlow<Unit> = merge(eventListFlow, startedEventListFlow, inactiveEventListFlow)
         .shareIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000)
         )
 
     fun onEvent(event: EventListScreenEvent) {
-        // this must be exhaustive - if you delete one of the items (lines), you'll see
-        // that it shows an error and won't let you compile
         when (event) {
             is EventListScreenEvent.StartTracking -> startTracking(event.id)
             is EventListScreenEvent.StopTracking -> stopTracking(event.id)

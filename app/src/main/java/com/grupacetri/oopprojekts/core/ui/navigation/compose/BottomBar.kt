@@ -11,6 +11,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -20,7 +21,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.navigation.EventNavigationRoute
 import com.grupacetri.oopprojekts.core.ui.navigation.HistoryNavigationRoute
@@ -71,10 +75,21 @@ fun BottomBar(
         tonalElevation = 0.dp,
     ) {
         // see https://developer.android.com/jetpack/compose/navigation#bottom-nav
-//        val navBackStackEntry by navController.currentBackStackEntryAsState()
-//        val currentDestination = navBackStackEntry?.destination
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
         val canNavigate by rememberCanNavigate()
         var selectedIndex by remember { mutableIntStateOf(0) }
+        LaunchedEffect(currentDestination) {
+            // bug in navigation compose beta - hasRoute doesn't work for subgraphs.
+            // workaround - use index, which doesn't work if using back to switch between
+            // bottom bar items, but if possible use the hasRoute
+            val nowSelectedIndex = items.indexOfFirst { screen ->
+                currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true
+            }
+            if (nowSelectedIndex != -1) {
+                selectedIndex = nowSelectedIndex
+            }
+        }
         items.forEachIndexed { index, screen ->
 //            val selected = currentDestination?.hierarchy?.any {
 //                Log.d("NavTest", "HasRoute: ${it.hasRoute(screen.route::class)} - $it")

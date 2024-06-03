@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.form
+package com.grupacetri.oopprojekts.featureEvent.ui.eventFormScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
@@ -31,38 +33,42 @@ typealias EventFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 @Inject
 @Composable
 fun EventFormScreen(
-    eventFormViewModel: (SavedStateHandle) -> EventFormViewModel,
+    eventFormScreenViewModel: (SavedStateHandle) -> EventFormScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { eventFormViewModel(createSavedStateHandle()) }
+    val viewModel = viewModel { eventFormScreenViewModel(createSavedStateHandle()) }
 
     SideEffectComposable(viewModel) {
-        when(it) {
+        when (it) {
             is EventFormScreenEvent.SideEffectEvent.NavigateUp -> {
                 navigate(NavigationRoute.NavigateUp)
             }
         }
     }
 
-    EventFormScreenContent(
+    EventFormContent(
         viewModel.state,
         viewModel::onEvent,
-        navigate
     )
 }
 
 @Composable
-private fun EventFormScreenContent(
+private fun EventFormContent(
     state: EventFormScreenState,
-    onEvent: (EventFormScreenEvent) -> Unit,
-    navigate: NavigateToRoute2
+    onEvent: (EventFormScreenEvent) -> Unit
 ) {
-    Column{
+    Column {
         EventFormTextField(
-            label = "Enter new name",
-            error = when(state.nameValidation.value) {
-                EventUseCases.EventNameError.IS_EMPTY -> "Name cannot be empty."
-                EventUseCases.EventNameError.TOO_LONG -> "Name must be less than 100."
+            label = stringResource(R.string.name),
+            error = when (state.nameValidation.value) {
+                EventUseCases.EventNameError.IS_EMPTY -> stringResource(
+                    R.string.validation_error_empty,
+                    stringResource(R.string.name)
+                )
+                EventUseCases.EventNameError.TOO_LONG -> stringResource(
+                    R.string.validation_error_too_long,
+                    stringResource(R.string.name), EventUseCases.NAME_MAX_LENGTH
+                )
                 null -> null
             },
             value = state.eventFormItem.value.name,
@@ -72,7 +78,7 @@ private fun EventFormScreenContent(
         )
         Spacer(modifier = Modifier.weight(1f))
         EventFormTextField(
-            label = "Comment",
+            label = stringResource(R.string.comment),
             value = state.eventFormItem.value.comment ?: "",
             onValueChange = {
                 onEvent(EventFormScreenEvent.UpdateComment(it))
@@ -80,10 +86,16 @@ private fun EventFormScreenContent(
         )
         Spacer(modifier = Modifier.weight(1f))
         EventFormTextField(
-            label = "Color",
-            error = when(state.colorValidation.value) {
-                EventUseCases.EventColorError.IS_EMPTY -> "Color cannot be empty."
-                EventUseCases.EventColorError.INVALID -> "Color is an invalid hexcode."
+            label = stringResource(R.string.color),
+            error = when (state.colorValidation.value) {
+                EventUseCases.EventColorError.IS_EMPTY -> stringResource(
+                    R.string.validation_error_empty,
+                    stringResource(R.string.color)
+                )
+                EventUseCases.EventColorError.INVALID -> stringResource(
+                    R.string.invalid_hexcode,
+                    stringResource(R.string.color)
+                )
                 null -> null
             },
             value = state.eventFormItem.value.color,
@@ -93,14 +105,14 @@ private fun EventFormScreenContent(
         )
         Spacer(modifier = Modifier.weight(1f))
 
-        Row (verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = state.eventFormItem.value.active,
                 onCheckedChange = {
                     onEvent(EventFormScreenEvent.UpdateActive(it))
                 }
             )
-            Text(text = "Active")
+            Text(text = stringResource(R.string.active))
         }
 
 
@@ -116,7 +128,7 @@ private fun EventFormScreenContent(
                 .height(100.dp)
         )
         {
-            Text(text = "ADD NEW")
+            Text(text = stringResource(R.string.save))
         }
     }
 }
@@ -129,13 +141,13 @@ private fun EventFormTextField(
     onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
-        label = { Text(text = label)},
+        label = { Text(text = label) },
         isError = error != null,
         supportingText = {
             if (error != null) {
                 Text(text = error)
             }
-         },
+        },
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier
@@ -145,13 +157,12 @@ private fun EventFormTextField(
 }
 
 
-
 @DarkLightPreviews
 @Composable
 private fun EventFormExampleContentPreview() {
     OOPProjektsTheme {
         val state = EventFormScreenState()
-        EventFormScreenContent(state = state, onEvent = {}, navigate = {})
+        EventFormContent(state = state, onEvent = {})
 
     }
 }

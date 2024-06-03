@@ -1,7 +1,7 @@
 package com.grupacetri.oopprojekts.featureEvent.domain
 
 import com.grupacetri.oopprojekts.Event
-import com.grupacetri.oopprojekts.SelectBit
+import com.grupacetri.oopprojekts.EventSelectWithBit
 
 data class EventItem(
     val id: Long,
@@ -10,6 +10,7 @@ data class EventItem(
     val active: Boolean,
     val started: Boolean
 )
+
 fun Event.toEventItem(): EventItem {
     return EventItem(
         this.id,
@@ -20,7 +21,7 @@ fun Event.toEventItem(): EventItem {
     )
 }
 
-fun SelectBit.toEventItem(): EventItem {
+fun EventSelectWithBit.toEventItem(): EventItem {
     return EventItem(
         this.id,
         this.name,

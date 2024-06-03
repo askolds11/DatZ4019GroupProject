@@ -18,15 +18,9 @@ class SettingsUseCases(
         }
     }
 
-
     fun setSetting(setting: AllSettings) {
         settingsRepository.insertOrUpdate(
             setting.toSettings()
         )
     }
-
-//    fun delete(key: SettingsKey) {
-//        settingsRepository.delete(key)
-//    }
-
 }

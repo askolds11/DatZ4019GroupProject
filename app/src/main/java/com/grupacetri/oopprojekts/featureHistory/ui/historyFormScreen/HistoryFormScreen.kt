@@ -1,4 +1,4 @@
-package com.grupacetri.oopprojekts.featureEvent.ui.eventTimeInstanceForm
+package com.grupacetri.oopprojekts.featureHistory.ui.historyFormScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -6,79 +6,90 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.grupacetri.oopprojekts.R
 import com.grupacetri.oopprojekts.core.ui.DarkLightPreviews
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigateToRoute2
 import com.grupacetri.oopprojekts.core.ui.navigation.NavigationRoute
 import com.grupacetri.oopprojekts.core.ui.sideeffect.SideEffectComposable
 import com.grupacetri.oopprojekts.core.ui.theme.OOPProjektsTheme
-import com.grupacetri.oopprojekts.featureEvent.domain.EventUseCases
-//import com.grupacetri.oopprojekts.featureFoo.ui.ExampleContent
+import com.grupacetri.oopprojekts.featureHistory.domain.HistoryUseCases
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
-typealias EventTimeInstanceFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
+typealias HistoryFormScreen = @Composable (navigate: NavigateToRoute2) -> Unit
 
 @Inject
 @Composable
-fun EventTimeInstanceFormScreen(
-    eventTimeInstanceFormViewModel: (SavedStateHandle) -> EventTimeInstanceFormViewModel,
+fun HistoryFormScreen(
+    historyFormScreenViewModel: (SavedStateHandle) -> HistoryFormScreenViewModel,
     @Assisted navigate: NavigateToRoute2
 ) {
-    val viewModel = viewModel { eventTimeInstanceFormViewModel(createSavedStateHandle()) }
+    val viewModel = viewModel { historyFormScreenViewModel(createSavedStateHandle()) }
 
     SideEffectComposable(viewModel) {
         when(it) {
-            is EventTimeInstanceFormEvent.SideEffectEvent.NavigateBack -> {
+            is HistoryFormScreenEvent.SideEffectEvent.NavigateBack -> {
                 navigate(NavigationRoute.NavigateUp)
             }
         }
     }
 
-    EventTimeInstanceFormScreenContent(
+    HistoryFormContent(
         viewModel.state,
         viewModel::onEvent
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EventTimeInstanceFormScreenContent(
-    state: EventTimeInstanceFormScreenState,
-    onEvent: (EventTimeInstanceFormEvent) -> Unit
+private fun HistoryFormContent(
+    state: HistoryFormScreenState,
+    onEvent: (HistoryFormScreenEvent) -> Unit
 ) {
     Column{
-        EventTimeInstanceFormTextField(
-            label = "Start time",
+        HistoryFormTextField(
+            label = stringResource(R.string.start_time),
             error = when(state.timeStartedValidation.value) {
-                EventUseCases.EventTimeError.IS_EMPTY -> "Time cannot be empty."
-                EventUseCases.EventTimeError.NOT_DATETIME -> "Datetime should match the datetime format."
+                HistoryUseCases.EventTimeError.IS_EMPTY -> stringResource(
+                    R.string.validation_error_empty,
+                    stringResource(R.string.start_time)
+                )
+                HistoryUseCases.EventTimeError.NOT_DATETIME -> stringResource(
+                    R.string.invalid_datetime,
+                    stringResource(R.string.end_time)
+                )
                 null -> null
             },
-            value = state.eventTimeInstanceFormItem.value.timeStarted,
+            value = state.historyFormItem.value.timeStarted,
             onValueChange = {
-                onEvent(EventTimeInstanceFormEvent.UpdateTimeStarted(it))
+                onEvent(HistoryFormScreenEvent.UpdateTimeStarted(it))
             },
         )
         Spacer(modifier = Modifier.height(10.dp))
-        EventTimeInstanceFormTextField(
-            label = "End time",
+        HistoryFormTextField(
+            label = stringResource(R.string.end_time),
             error = when(state.timeEndedValidation.value) {
-                EventUseCases.EventTimeError.IS_EMPTY -> "Time cannot be empty."
-                EventUseCases.EventTimeError.NOT_DATETIME -> "Datetime should match the datetime format."
+                HistoryUseCases.EventTimeError.IS_EMPTY -> stringResource(
+                    R.string.validation_error_empty,
+                    stringResource(R.string.end_time)
+                )
+                HistoryUseCases.EventTimeError.NOT_DATETIME -> stringResource(
+                    R.string.invalid_datetime,
+                    stringResource(R.string.end_time)
+                )
                 null -> null
             },
-            value = state.eventTimeInstanceFormItem.value.timeEnded?: "",
+            value = state.historyFormItem.value.timeEnded?: "",
             onValueChange = {
-                onEvent(EventTimeInstanceFormEvent.UpdateTimeEnded(it))
+                onEvent(HistoryFormScreenEvent.UpdateTimeEnded(it))
             }
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -86,7 +97,7 @@ private fun EventTimeInstanceFormScreenContent(
 
         Button(
             onClick = {
-                onEvent(EventTimeInstanceFormEvent.Save)
+                onEvent(HistoryFormScreenEvent.Save)
             },
             enabled = state.saveEnabled.value,
             modifier = Modifier
@@ -95,13 +106,13 @@ private fun EventTimeInstanceFormScreenContent(
                 .height(100.dp)
         )
         {
-            Text(text = "SAVE")
+            Text(text = stringResource(R.string.save))
         }
     }
 }
 
 @Composable
-private fun EventTimeInstanceFormTextField(
+private fun HistoryFormTextField(
     label: String,
     error: String? = null,
     value: String,
@@ -127,9 +138,9 @@ private fun EventTimeInstanceFormTextField(
 
 @DarkLightPreviews
 @Composable
-private fun EventFormExampleContentPreview() {
+private fun HistoryContentPreview() {
     OOPProjektsTheme {
-        val state = EventTimeInstanceFormScreenState()
-        EventTimeInstanceFormScreenContent(state = state, onEvent = {})
+        val state = HistoryFormScreenState()
+        HistoryFormContent(state = state, onEvent = {})
     }
 }
