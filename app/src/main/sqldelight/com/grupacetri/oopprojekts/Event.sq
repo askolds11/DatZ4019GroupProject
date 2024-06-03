@@ -14,6 +14,14 @@ eventInsert:
 eventUpdate:
     INSERT OR REPLACE INTO event (id, name, comment, color, active, created, modified) VALUES ?;
 
+eventDelete {
+    BEGIN;
+        DELETE FROM eventTimeInstance WHERE event_id = (:eventId);
+
+        DELETE FROM event WHERE id = (:eventId);
+    END;
+}
+
 eventSelectById:
 SELECT * FROM event WHERE id = ?;
 

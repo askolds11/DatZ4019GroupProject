@@ -43,7 +43,7 @@ class EventFormScreenViewModel (
             is EventFormScreenEvent.UpdateActive -> updateActive(event.newValue)
             is EventFormScreenEvent.Save -> save()
             is EventFormScreenEvent.SideEffectEvent -> emitSideEffect(event)
-           
+            is EventFormScreenEvent.Delete -> delete()
         }
     }
 
@@ -99,6 +99,11 @@ class EventFormScreenViewModel (
         } else {
             eventUseCases.insert(state.eventFormItem.value)
         }
+        emitSideEffect(EventFormScreenEvent.SideEffectEvent.NavigateUp)
+    }
+
+    private fun delete() {
+        eventUseCases.delete(eventParams.id)
         emitSideEffect(EventFormScreenEvent.SideEffectEvent.NavigateUp)
     }
 }

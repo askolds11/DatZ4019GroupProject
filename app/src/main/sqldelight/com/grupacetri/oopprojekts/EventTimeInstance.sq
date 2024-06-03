@@ -12,6 +12,9 @@ CREATE TABLE eventTimeInstance (
 historyInsert:
      INSERT INTO eventTimeInstance (event_id, time_started, time_ended, created, modified) VALUES ?;
 
+historyDelete:
+    DELETE FROM eventTimeInstance WHERE id = (?);
+
 historySelectByDate:
     SELECT t.id, e.name, t.time_started, t.time_ended
     FROM eventTimeInstance t

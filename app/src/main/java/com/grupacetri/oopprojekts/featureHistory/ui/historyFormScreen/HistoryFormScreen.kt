@@ -1,15 +1,23 @@
 package com.grupacetri.oopprojekts.featureHistory.ui.historyFormScreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
@@ -92,9 +100,23 @@ private fun HistoryFormContent(
                 onEvent(HistoryFormScreenEvent.UpdateTimeEnded(it))
             }
         )
+
+        Spacer(modifier = Modifier.weight(2f))
+        IconButton(
+            onClick = { onEvent(HistoryFormScreenEvent.Delete) },
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.errorContainer)
+
+        ) {
+            Icon(
+                Icons.Outlined.Delete,
+                contentDescription = stringResource(R.string.delete),
+                tint = MaterialTheme.colorScheme.onErrorContainer
+            )
+        }
+
         Spacer(modifier = Modifier.height(10.dp))
-
-
         Button(
             onClick = {
                 onEvent(HistoryFormScreenEvent.Save)

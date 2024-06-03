@@ -18,6 +18,10 @@ class EventRepositoryImpl (
         database.eventQueries.eventUpdate(event)
     }
 
+    override fun delete(id: Long) {
+        database.eventQueries.eventDelete(id)
+    }
+
     override fun selectStarted(): Flow<List<Event>> {
         return database.eventQueries.eventSelectStarted().asFlow().map {
             it.executeAsList()

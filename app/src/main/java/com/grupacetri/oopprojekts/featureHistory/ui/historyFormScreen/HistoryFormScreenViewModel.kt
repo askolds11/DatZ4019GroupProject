@@ -38,6 +38,7 @@ class HistoryFormScreenViewModel (
             is HistoryFormScreenEvent.UpdateTimeEnded -> updateTimeEnded(event.newValue)
             is HistoryFormScreenEvent.Save -> save()
             is HistoryFormScreenEvent.SideEffectEvent -> emitSideEffect(event)
+            is HistoryFormScreenEvent.Delete -> delete()
         }
     }
 
@@ -74,5 +75,10 @@ class HistoryFormScreenViewModel (
         } else {
             state.saveEnabled.value = true
         }
+    }
+
+    private fun delete() {
+        historyUseCases.delete(historyFormParams.id)
+        emitSideEffect(HistoryFormScreenEvent.SideEffectEvent.NavigateBack)
     }
 }
